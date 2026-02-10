@@ -41,10 +41,15 @@ export const applyForJob = async (req, res) => {
       });
     }
 
+    const cvUrl = req.file ? `/uploads/cvs/${req.file.filename}` : null;
+    const cvFilename = req.file ? req.file.originalname : null;
+
     const application = await Application.create({
       jobId,
       jobSeekerId: jobSeeker.id,
-      coverLetter
+      coverLetter,
+      cvUrl,
+      cvFilename
     });
 
     return res.status(201).json({

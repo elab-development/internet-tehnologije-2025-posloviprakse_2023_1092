@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import BlogPage from './components/BlogPage';
 import BlogPostDetail from './components/BlogPostDetail';
@@ -17,9 +17,20 @@ import AdminConsole from './components/AdminConsole';
 import DebugPage from './components/DebugPage';
 import PrivateRoute from './components/PrivateRoute';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<OfferPage />} />

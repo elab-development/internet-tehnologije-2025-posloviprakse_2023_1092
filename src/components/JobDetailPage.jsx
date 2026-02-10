@@ -10,6 +10,7 @@ export default function JobDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [coverLetter, setCoverLetter] = useState('');
+  const [cvFile, setCvFile] = useState(null);
   const [applyStatus, setApplyStatus] = useState({ type: '', message: '' });
   const { user, isAuthenticated, isStudent } = useAuth();
 
@@ -41,9 +42,17 @@ export default function JobDetailPage() {
     }
 
     try {
-      await applicationsAPI.apply(id, { coverLetter });
+      if (cvFile) {
+        const formData = new FormData();
+        if (coverLetter) formData.append('coverLetter', coverLetter);
+        formData.append('cv', cvFile);
+        await applicationsAPI.apply(id, formData);
+      } else {
+        await applicationsAPI.apply(id, { coverLetter });
+      }
       setApplyStatus({ type: 'success', message: 'Prijava je poslata! Prati status u profilu.' });
       setCoverLetter('');
+      setCvFile(null);
     } catch (err) {
       setApplyStatus({ type: 'error', message: err.message || 'Greška pri slanju prijave.' });
     }
@@ -166,6 +175,18 @@ export default function JobDetailPage() {
                 rows="5"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:border-emerald-400"
               />
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  CV (PDF, DOC, DOCX)
+                </label>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => setCvFile(e.target.files?.[0] || null)}
+                  className="w-full"
+                />
+              </div>
 
               {applyStatus.message && (
                 <div

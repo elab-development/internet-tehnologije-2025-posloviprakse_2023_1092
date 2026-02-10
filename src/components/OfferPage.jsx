@@ -267,7 +267,7 @@ const OfferPage = () => {
               featuredJobs.map((job, index) => (
                 <Link
                   key={job.id}
-                  to={`/jobs/${job.id}`}
+                  to={`/job/${job.id}`}
                   className="rounded-3xl border border-white/10 bg-slate-900/50 p-6 hover:border-emerald-300/60 hover:bg-slate-900/70 hover:scale-105 transition-all duration-300 block animate-fade-in-up"
                   style={{animationDelay: `${index * 0.1}s`}}
                 >

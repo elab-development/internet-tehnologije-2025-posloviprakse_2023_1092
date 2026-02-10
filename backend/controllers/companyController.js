@@ -101,7 +101,17 @@ export const updateCompanyProfile = async (req, res) => {
       });
     }
 
-    const { companyName, description, website, industry, location, employees, logo } = req.body;
+    const {
+      companyName,
+      description,
+      website,
+      industry,
+      location,
+      employees,
+      logo,
+      firstName,
+      lastName
+    } = req.body;
 
     await company.update({
       companyName: companyName || company.companyName,
@@ -113,10 +123,31 @@ export const updateCompanyProfile = async (req, res) => {
       logo: logo || company.logo
     });
 
+    const user = await User.findByPk(req.user.id);
+    if (user) {
+      const userUpdateData = {};
+      if (firstName !== undefined) userUpdateData.firstName = firstName;
+      if (lastName !== undefined) userUpdateData.lastName = lastName;
+      if (Object.keys(userUpdateData).length > 0) {
+        await user.update(userUpdateData);
+      }
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Profil kompanije je uspješno ažuriran!',
-      data: company
+      data: {
+        ...company.toJSON(),
+        user: user
+          ? {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              profilePicture: user.profilePicture
+            }
+          : undefined
+      }
     });
   } catch (error) {
     return res.status(500).json({

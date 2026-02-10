@@ -7,6 +7,7 @@ import {
   updateApplicationStatus
 } from '../controllers/applicationController.js';
 import { authenticateToken, authorizeRole } from '../middleware/auth.js';
+import { uploadCV, handleUploadError } from '../middleware/fileUpload.js';
 import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
@@ -15,6 +16,8 @@ const router = express.Router();
 router.post('/apply/:jobId',
   authenticateToken,
   authorizeRole(['student', 'alumni']),
+  uploadCV,
+  handleUploadError,
   [
     param('jobId').isUUID().withMessage('Nevažeći ID oglasa'),
     body('coverLetter').optional().isString()

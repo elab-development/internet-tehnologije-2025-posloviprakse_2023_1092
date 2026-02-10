@@ -190,10 +190,11 @@ export const jobsAPI = {
 export const applicationsAPI = {
   // Apliciraj za posao
   apply: async (jobId, applicationData) => {
+    const isFormData = applicationData instanceof FormData;
     const response = await fetch(`${API_URL}/applications/apply/${jobId}`, {
       method: 'POST',
-      headers: getHeaders(true),
-      body: JSON.stringify(applicationData),
+      headers: isFormData ? { 'Authorization': `Bearer ${getToken()}` } : getHeaders(true),
+      body: isFormData ? applicationData : JSON.stringify(applicationData),
     });
     return handleResponse(response);
   },

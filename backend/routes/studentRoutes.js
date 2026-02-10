@@ -37,10 +37,10 @@ router.put(
   authenticateToken,
   authorizeRole(['student', 'alumni']),
   [
-    body('phone').optional().isMobilePhone('any').withMessage('Nevažeći broj telefona'),
-    body('skills').optional().isArray().withMessage('Skills mora biti niz'),
-    body('education').optional().isArray().withMessage('Education mora biti niz'),
-    body('experience').optional().isInt({ min: 0 }).withMessage('Experience mora biti pozitivan broj')
+    body('phone').optional({ checkFalsy: true }).isMobilePhone('any').withMessage('Nevažeći broj telefona'),
+    body('skills').optional({ checkFalsy: true }).isArray().withMessage('Skills mora biti niz'),
+    body('education').optional({ checkFalsy: true }).isArray().withMessage('Education mora biti niz'),
+    body('experience').optional({ checkFalsy: true }).isInt({ min: 0 }).withMessage('Experience mora biti pozitivan broj')
   ],
   handleValidationErrors,
   updateMyProfile

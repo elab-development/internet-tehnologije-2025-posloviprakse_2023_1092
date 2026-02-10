@@ -29,6 +29,7 @@ export default function ProfilePage() {
   });
   const { user, token, loading: authLoading, logout, isStudent, isCompany, updateUser } = useAuth();
   const navigate = useNavigate();
+  const displayUser = userProfile?.user || user;
 
   useEffect(() => {
     if (authLoading) {
@@ -135,6 +136,12 @@ export default function ProfilePage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const normalizeText = (value) => {
+    if (value === undefined || value === null) return undefined;
+    const trimmed = String(value).trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -143,25 +150,24 @@ export default function ProfilePage() {
     try {
       if (isStudent()) {
         const payload = {
-          firstName: formData.firstName.trim(),
-          lastName: formData.lastName.trim(),
-          bio: formData.bio.trim(),
-          phone: formData.phone.trim(),
-          location: formData.location.trim(),
-          skills: formData.skills
+          firstName: normalizeText(formData.firstName),
+          lastName: normalizeText(formData.lastName),
+          bio: normalizeText(formData.bio),
+          phone: normalizeText(formData.phone),
+          location: normalizeText(formData.location),
+          skills: normalizeText(formData.skills)
             ? formData.skills.split(',').map(s => s.trim()).filter(Boolean)
-            : [],
+            : undefined,
           experience: formData.experience === '' ? undefined : Number(formData.experience),
-          education: formData.education
+          education: normalizeText(formData.education)
             ? formData.education.split('\n').map(s => s.trim()).filter(Boolean)
-            : []
+            : undefined
         };
 
         const response = await studentAPI.updateProfile(payload);
         setUserProfile(response.data || response);
-        if (response?.data?.user) {
-          updateUser(response.data.user);
-        }
+        const updatedUser = response?.data?.user || response?.user;
+        if (updatedUser) updateUser(updatedUser);
 
         if (profileImageFile) {
           const uploadResponse = await studentAPI.uploadProfilePicture(profileImageFile);
@@ -169,16 +175,20 @@ export default function ProfilePage() {
         }
       } else if (isCompany()) {
         const payload = {
-          companyName: formData.companyName.trim(),
-          description: formData.description.trim(),
-          website: formData.website.trim(),
-          industry: formData.industry.trim(),
-          location: formData.companyLocation.trim(),
+          firstName: normalizeText(formData.firstName),
+          lastName: normalizeText(formData.lastName),
+          companyName: normalizeText(formData.companyName),
+          description: normalizeText(formData.description),
+          website: normalizeText(formData.website),
+          industry: normalizeText(formData.industry),
+          location: normalizeText(formData.companyLocation),
           employees: formData.employees === '' ? undefined : Number(formData.employees)
         };
 
         const response = await companiesAPI.updateProfile(payload);
         setUserProfile(response.data || response);
+        const updatedUser = response?.data?.user || response?.user;
+        if (updatedUser) updateUser(updatedUser);
 
         if (profileImageFile) {
           const uploadResponse = await companiesAPI.uploadLogo(profileImageFile);
@@ -236,13 +246,13 @@ export default function ProfilePage() {
               </div>
               <div className="flex-grow">
                 <h2 className="text-3xl font-bold text-slate-950">
-                  {user?.firstName} {user?.lastName}
+                  {displayUser?.firstName} {displayUser?.lastName}
                 </h2>
                 <p className="text-emerald-600 font-semibold capitalize text-lg">
-                  {user?.role === 'student' && '👨‍🎓 Student'}
-                  {user?.role === 'alumni' && '🎓 Alumni'}
-                  {user?.role === 'company' && '🏢 Kompanija'}
-                  {user?.role === 'admin' && '⚙️ Administrator'}
+                  {displayUser?.role === 'student' && '👨‍🎓 Student'}
+                  {displayUser?.role === 'alumni' && '🎓 Alumni'}
+                  {displayUser?.role === 'company' && '🏢 Kompanija'}
+                  {displayUser?.role === 'admin' && '⚙️ Administrator'}
                 </p>
               </div>
             </div>
@@ -253,7 +263,7 @@ export default function ProfilePage() {
                 <Mail className="text-emerald-500" size={20} />
                 <div>
                   <p className="text-xs text-slate-500 uppercase tracking-wider">Email</p>
-                  <p className="text-slate-900 font-semibold">{user?.email}</p>
+                  <p className="text-slate-900 font-semibold">{displayUser?.email}</p>
                 </div>
               </div>
 

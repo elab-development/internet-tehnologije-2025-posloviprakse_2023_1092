@@ -33,12 +33,14 @@ router.put('/profile',
   authenticateToken,
   authorizeRole(['company', 'admin']),
   [
-    body('companyName').optional().isString(),
-    body('description').optional().isString(),
-    body('website').optional().isURL(),
-    body('industry').optional().isString(),
-    body('location').optional().isString(),
-    body('employees').optional().isInt()
+    body('firstName').optional({ checkFalsy: true }).isString(),
+    body('lastName').optional({ checkFalsy: true }).isString(),
+    body('companyName').optional({ checkFalsy: true }).isString(),
+    body('description').optional({ checkFalsy: true }).isString(),
+    body('website').optional({ checkFalsy: true }).isURL(),
+    body('industry').optional({ checkFalsy: true }).isString(),
+    body('location').optional({ checkFalsy: true }).isString(),
+    body('employees').optional({ checkFalsy: true }).isInt()
   ],
   handleValidationErrors,
   updateCompanyProfile

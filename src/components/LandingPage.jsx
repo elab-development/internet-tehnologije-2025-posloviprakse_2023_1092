@@ -187,7 +187,7 @@ const LandingPage = () => {
               {
                 icon: Users,
                 title: "Aktivna Zajednica",
-                desc: "Буди dio vibrantne zajednice studenata, alumni i profesionalaca"
+                desc: "Budi dio vibrantne zajednice studenata, alumni i profesionalaca"
               },
               {
                 icon: Briefcase,

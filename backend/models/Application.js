@@ -33,6 +33,14 @@ export default (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: true
       },
+      cvUrl: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      cvFilename: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       appliedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW

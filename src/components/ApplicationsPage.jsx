@@ -14,6 +14,7 @@ export default function ApplicationsPage() {
   const [updatingAppId, setUpdatingAppId] = useState(null);
   const { user, token, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
 
   useEffect(() => {
     if (authLoading) {
@@ -228,60 +229,78 @@ export default function ApplicationsPage() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {applications.map((app) => (
-                        <div
-                          key={app.id}
-                          className="bg-white rounded-2xl shadow border border-slate-100 p-6 hover:shadow-lg transition"
-                        >
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex-grow">
-                              <h3 className="text-lg font-bold text-slate-950">
-                                {app.JobSeeker?.User?.firstName}{' '}
-                                {app.JobSeeker?.User?.lastName}
-                              </h3>
-                              <p className="text-slate-600 text-sm">
-                                {app.JobSeeker?.User?.email}
-                              </p>
-                              {app.JobSeeker?.phone && (
-                                <p className="text-slate-600 text-sm">
-                                  📱 {app.JobSeeker.phone}
-                                </p>
-                              )}
-                              {app.JobSeeker?.location && (
-                                <p className="text-slate-600 text-sm">
-                                  📍 {app.JobSeeker.location}
-                                </p>
-                              )}
-                            </div>
-                            <div>{getStatusBadge(app.status)}</div>
-                          </div>
+                      {applications.map((app) => {
+                        const applicant = app.jobSeeker || app.JobSeeker;
+                        const applicantUser = applicant?.user || applicant?.User;
+                        const cvUrl = app.cvUrl || app.cv_url || applicant?.cv_url;
+                        const cvFilename = app.cvFilename || app.cv_filename || applicant?.cv_filename || 'CV';
 
-                          {app.JobSeeker?.skills && app.JobSeeker.skills.length > 0 && (
-                            <div className="mb-4 pb-4 border-b border-slate-100">
-                              <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">
-                                Veštine
-                              </p>
-                              <div className="flex flex-wrap gap-2">
-                                {app.JobSeeker.skills.map((skill, idx) => (
-                                  <span
-                                    key={idx}
-                                    className="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium"
-                                  >
-                                    {skill}
-                                  </span>
-                                ))}
+                        return (
+                          <div
+                            key={app.id}
+                            className="bg-white rounded-2xl shadow border border-slate-100 p-6 hover:shadow-lg transition"
+                          >
+                            <div className="flex items-start justify-between mb-4">
+                              <div className="flex-grow">
+                                <h3 className="text-lg font-bold text-slate-950">
+                                  {applicantUser?.firstName} {applicantUser?.lastName}
+                                </h3>
+                                <p className="text-slate-600 text-sm">
+                                  {applicantUser?.email}
+                                </p>
+                                {applicant?.phone && (
+                                  <p className="text-slate-600 text-sm">
+                                    📱 {applicant.phone}
+                                  </p>
+                                )}
+                                {applicant?.location && (
+                                  <p className="text-slate-600 text-sm">
+                                    📍 {applicant.location}
+                                  </p>
+                                )}
                               </div>
+                              <div>{getStatusBadge(app.status)}</div>
                             </div>
-                          )}
 
-                          {app.coverLetter && (
-                            <div className="mb-4 pb-4 border-b border-slate-100">
-                              <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">
-                                Poruka
-                              </p>
-                              <p className="text-slate-700 text-sm">{app.coverLetter}</p>
-                            </div>
-                          )}
+                            {applicant?.skills && applicant.skills.length > 0 && (
+                              <div className="mb-4 pb-4 border-b border-slate-100">
+                                <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">
+                                  Veštine
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                  {applicant.skills.map((skill, idx) => (
+                                    <span
+                                      key={idx}
+                                      className="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium"
+                                    >
+                                      {skill}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {app.coverLetter && (
+                              <div className="mb-4 pb-4 border-b border-slate-100">
+                                <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">
+                                  Poruka
+                                </p>
+                                <p className="text-slate-700 text-sm">{app.coverLetter}</p>
+                              </div>
+                            )}
+
+                            {cvUrl && (
+                              <div className="mb-4">
+                                <a
+                                  href={`${apiBase}${cvUrl}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+                                >
+                                  📄 Preuzmi CV ({cvFilename})
+                                </a>
+                              </div>
+                            )}
 
                           <div className="flex gap-2 flex-wrap">
                             <button
@@ -322,7 +341,8 @@ export default function ApplicationsPage() {
                             </button>
                           </div>
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>
