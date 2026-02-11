@@ -87,12 +87,10 @@ export default function CreateJobPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white pt-24 pb-20">
-      {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#0f766e_0%,transparent_50%)] opacity-40 pointer-events-none" />
       <div className="absolute top-20 right-10 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
       
       <div className="relative max-w-5xl mx-auto px-6">
-        {/* Header */}
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-slate-300 hover:text-white mb-8 font-semibold transition"
@@ -117,7 +115,6 @@ export default function CreateJobPage() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Form Section */}
           <div className="lg:col-span-2">
             <div className="bg-slate-900/60 rounded-3xl border border-white/10 p-8 backdrop-blur-sm">
               {error && (
@@ -135,7 +132,6 @@ export default function CreateJobPage() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Title */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-200 mb-2">
                     Naslov Oglasa * <span className="text-xs text-slate-400">{formData.title.length}/100</span>
@@ -152,7 +148,6 @@ export default function CreateJobPage() {
                   <p className="text-xs text-slate-400 mt-1">Budi jasan i upečatljiv</p>
                 </div>
 
-                {/* Description */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-200 mb-2">
                     Opis Oglasa * <span className="text-xs text-slate-400">{formData.description.length}/5000</span>
@@ -173,7 +168,6 @@ export default function CreateJobPage() {
                   />
                 </div>
 
-                {/* Category & Location */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-200 mb-2">
@@ -207,7 +201,6 @@ export default function CreateJobPage() {
                   </div>
                 </div>
 
-                {/* Job Type & Experience Level */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-200 mb-2">
@@ -242,7 +235,6 @@ export default function CreateJobPage() {
                   </div>
                 </div>
 
-                {/* Salary & Deadline */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-200 mb-2">
@@ -272,7 +264,6 @@ export default function CreateJobPage() {
                   </div>
                 </div>
 
-                {/* Required Skills */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-200 mb-2">
                     Potrebne Veštine (opciono)
@@ -288,7 +279,6 @@ npr. React, Node.js, PostgreSQL, Git, Docker, AWS"
                   />
                 </div>
 
-                {/* Submit Button */}
                 <div className="pt-6 border-t border-white/10 flex gap-4">
                   <button
                     type="submit"
@@ -315,7 +305,6 @@ npr. React, Node.js, PostgreSQL, Git, Docker, AWS"
             </div>
           </div>
 
-          {/* Preview Section */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-slate-900/60 rounded-3xl border border-white/10 p-6 backdrop-blur-sm">
               <h3 className="text-lg font-bold text-white mb-4">📋 Pregled</h3>

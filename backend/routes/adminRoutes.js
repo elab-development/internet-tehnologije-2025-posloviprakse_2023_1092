@@ -18,28 +18,28 @@ import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// Sve admin rute zahtevaju autentifikaciju i admin ulogu
+
 router.use(authenticateToken, authorizeRole(['admin']));
 
-/**
- * @route   GET /api/admin/dashboard
- * @desc    Dobijanje dashboard statistika
- * @access  Admin
- */
+
+
+
+
+
 router.get('/dashboard', getDashboardStats);
 
-/**
- * @route   GET /api/admin/jobs/pending
- * @desc    Dobijanje svih oglasa koji čekaju odobrenje
- * @access  Admin
- */
+
+
+
+
+
 router.get('/jobs/pending', getPendingJobs);
 
-/**
- * @route   PUT /api/admin/jobs/:jobId/approve
- * @desc    Odobravanje oglasa
- * @access  Admin
- */
+
+
+
+
+
 router.put(
   '/jobs/:jobId/approve',
   [
@@ -49,11 +49,11 @@ router.put(
   approveJob
 );
 
-/**
- * @route   PUT /api/admin/jobs/:jobId/reject
- * @desc    Odbijanje oglasa sa razlogom
- * @access  Admin
- */
+
+
+
+
+
 router.put(
   '/jobs/:jobId/reject',
   [
@@ -64,11 +64,11 @@ router.put(
   rejectJob
 );
 
-/**
- * @route   PUT /api/admin/jobs/:jobId/archive
- * @desc    Arhiviranje oglasa
- * @access  Admin
- */
+
+
+
+
+
 router.put(
   '/jobs/:jobId/archive',
   [
@@ -78,19 +78,19 @@ router.put(
   archiveJob
 );
 
-/**
- * @route   GET /api/admin/users
- * @desc    Dobijanje svih korisnika sa filterima
- * @access  Admin
- * @query   role, isActive, emailVerified, page, limit
- */
+
+
+
+
+
+
 router.get('/users', getAllUsers);
 
-/**
- * @route   PUT /api/admin/users/:userId/role
- * @desc    Promena uloge korisnika
- * @access  Admin
- */
+
+
+
+
+
 router.put(
   '/users/:userId/role',
   [
@@ -103,11 +103,11 @@ router.put(
   changeUserRole
 );
 
-/**
- * @route   PUT /api/admin/users/:userId/deactivate
- * @desc    Deaktivacija korisničkog naloga
- * @access  Admin
- */
+
+
+
+
+
 router.put(
   '/users/:userId/deactivate',
   [
@@ -117,11 +117,11 @@ router.put(
   deactivateUser
 );
 
-/**
- * @route   PUT /api/admin/users/:userId/reactivate
- * @desc    Reaktivacija korisničkog naloga
- * @access  Admin
- */
+
+
+
+
+
 router.put(
   '/users/:userId/reactivate',
   [
@@ -131,11 +131,11 @@ router.put(
   reactivateUser
 );
 
-/**
- * @route   DELETE /api/admin/users/:userId
- * @desc    Brisanje korisnika
- * @access  Admin
- */
+
+
+
+
+
 router.delete(
   '/users/:userId',
   [
@@ -145,11 +145,11 @@ router.delete(
   deleteUser
 );
 
-/**
- * @route   DELETE /api/admin/jobs/:jobId
- * @desc    Brisanje oglasa (admin)
- * @access  Admin
- */
+
+
+
+
+
 router.delete(
   '/jobs/:jobId',
   [

@@ -5,28 +5,28 @@ import process from 'process';
 
 dotenv.config();
 
-/**
- * Email Service za slanje verifikacionih mejlova i reset lozinke
- * Koristi nodemailer sa Gmail SMTP serverom
- */
 
-// Konfiguracija SMTP transportera
+
+
+
+
+
 const createTransporter = () => {
-  // Za development - koristimo Ethereal Email (test email servis)
-  // Za production - koristiti pravi SMTP (Gmail, SendGrid, itd.)
+  
+  
   
   if (process.env.NODE_ENV === 'production') {
     return nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: process.env.SMTP_PORT || 587,
-      secure: false, // true za 465, false za ostale portove
+      secure: false, 
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD
       }
     });
   } else {
-    // Development mode - loguj email u konzolu umesto slanja
+    
     return nodemailer.createTransport({
       host: 'smtp.ethereal.email',
       port: 587,
@@ -39,21 +39,21 @@ const createTransporter = () => {
   }
 };
 
-/**
- * Generiše random token za email verifikaciju ili password reset
- * @returns {string} Hex string token
- */
+
+
+
+
 export const generateToken = () => {
   return crypto.randomBytes(32).toString('hex');
 };
 
-/**
- * Šalje email verifikacioni link korisniku
- * @param {string} email - Email adresa korisnika
- * @param {string} token - Verifikacioni token
- * @param {string} firstName - Ime korisnika
- * @returns {Promise<object>} Info o poslanom emailu
- */
+
+
+
+
+
+
+
 export const sendVerificationEmail = async (email, token, firstName) => {
   const transporter = createTransporter();
   
@@ -129,13 +129,13 @@ export const sendVerificationEmail = async (email, token, firstName) => {
   }
 };
 
-/**
- * Šalje email sa linkom za reset lozinke
- * @param {string} email - Email adresa korisnika
- * @param {string} token - Reset token
- * @param {string} firstName - Ime korisnika
- * @returns {Promise<object>} Info o poslanom emailu
- */
+
+
+
+
+
+
+
 export const sendPasswordResetEmail = async (email, token, firstName) => {
   const transporter = createTransporter();
   
@@ -219,12 +219,12 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
   }
 };
 
-/**
- * Šalje obaveštenje korisniku da je email uspešno promenjen
- * @param {string} email - Email adresa korisnika
- * @param {string} firstName - Ime korisnika
- * @returns {Promise<object>} Info o poslanom emailu
- */
+
+
+
+
+
+
 export const sendPasswordChangeConfirmation = async (email, firstName) => {
   const transporter = createTransporter();
   
@@ -250,7 +250,7 @@ export const sendPasswordChangeConfirmation = async (email, firstName) => {
     return await transporter.sendMail(mailOptions);
   } catch (error) {
     console.error('Error sending password change confirmation:', error);
-    // Ne bacaj grešku - ovo nije kritično
+    
     return null;
   }
 };

@@ -5,9 +5,7 @@ import { Briefcase, Users, CheckCircle, ArrowRight, Zap, Shield, TrendingUp } fr
 const LandingPage = () => {
   return (
     <div className="w-full">
-      {/* ============= HERO SEKCIJA ============= */}
       <section className="relative w-full min-h-[80vh] bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 overflow-hidden flex items-center">
-        {/* Animated Background */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
@@ -44,7 +42,6 @@ const LandingPage = () => {
             </Link>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto mt-16">
             <div className="bg-white/10 backdrop-blur rounded-xl p-4">
               <div className="text-3xl font-bold text-emerald-400 mb-1">500+</div>
@@ -62,7 +59,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ============= KAKO FUNKCIONIŠE ============= */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -73,7 +69,6 @@ const LandingPage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
-            {/* Za Studente */}
             <div className="bg-gradient-to-br from-emerald-50 to-cyan-50 rounded-3xl p-8 border border-emerald-200">
               <div className="w-14 h-14 rounded-full bg-emerald-400 flex items-center justify-center mb-6">
                 <Users className="text-white" size={28} />
@@ -112,7 +107,6 @@ const LandingPage = () => {
               </div>
             </div>
 
-            {/* Za Kompanije */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-200">
               <div className="w-14 h-14 rounded-full bg-blue-400 flex items-center justify-center mb-6">
                 <Briefcase className="text-white" size={28} />
@@ -154,7 +148,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ============= PREDNOSTI ============= */}
       <section className="py-20 px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -205,7 +198,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ============= OSTALI OGLASI ============= */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -267,7 +259,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ============= CTA SEKCIJA ============= */}
       <section className="py-20 px-6 bg-gradient-to-r from-emerald-500 to-cyan-500">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-4xl font-bold mb-6">Spreman da Počneš?</h2>

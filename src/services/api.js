@@ -1,15 +1,15 @@
-// API Service - Centralizovani servis za komunikaciju sa backendom
+
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 console.log('🌐 API URL:', API_URL);
 
-// Helper funkcija za dobijanje tokena
+
 const getToken = () => {
   return localStorage.getItem('token');
 };
 
-// Helper funkcija za kreiranje headers
+
 const getHeaders = (includeAuth = false) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ const getHeaders = (includeAuth = false) => {
   return headers;
 };
 
-// Timeout helper za fetch zahteve
+
 const fetchWithTimeout = (url, options = {}, timeout = 30000) => {
   return Promise.race([
     fetch(url, options),
@@ -35,7 +35,7 @@ const fetchWithTimeout = (url, options = {}, timeout = 30000) => {
   ]);
 };
 
-// Helper funkcija za handleovanje response-a
+
 const handleResponse = async (response) => {
   try {
     const data = await response.json();
@@ -53,9 +53,9 @@ const handleResponse = async (response) => {
   }
 };
 
-// ============= AUTH API =============
+
 export const authAPI = {
-  // Registracija
+  
   register: async (userData) => {
     console.log('📝 Starting registration request...');
     try {
@@ -72,7 +72,7 @@ export const authAPI = {
     }
   },
 
-  // Login
+  
   login: async (credentials) => {
     console.log('🔐 Starting login request...');
     try {
@@ -89,7 +89,7 @@ export const authAPI = {
     }
   },
 
-  // Verifikacija emaila
+  
   verifyEmail: async (token) => {
     const response = await fetch(`${API_URL}/auth/verify-email`, {
       method: 'POST',
@@ -99,7 +99,7 @@ export const authAPI = {
     return handleResponse(response);
   },
 
-  // Zaboravljena lozinka
+  
   forgotPassword: async (email) => {
     const response = await fetch(`${API_URL}/auth/forgot-password`, {
       method: 'POST',
@@ -109,7 +109,7 @@ export const authAPI = {
     return handleResponse(response);
   },
 
-  // Reset lozinke
+  
   resetPassword: async (token, newPassword) => {
     const response = await fetch(`${API_URL}/auth/reset-password`, {
       method: 'POST',
@@ -120,9 +120,9 @@ export const authAPI = {
   },
 };
 
-// ============= JOBS API =============
+
 export const jobsAPI = {
-  // Dobavi sve oglase (javnost)
+  
   getAll: async (filters = {}) => {
     const params = new URLSearchParams();
     Object.keys(filters).forEach(key => {
@@ -133,7 +133,7 @@ export const jobsAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi sve moje oglase (samo za company/alumni)
+  
   getMyJobs: async () => {
     const response = await fetch(`${API_URL}/jobs/my-jobs`, {
       headers: getHeaders(true),
@@ -141,13 +141,13 @@ export const jobsAPI = {
     return handleResponse(response);
   },
 
-  // Dobaji pojedinačni oglas
+  
   getById: async (id) => {
     const response = await fetch(`${API_URL}/jobs/${id}`);
     return handleResponse(response);
   },
 
-  // Kreiraj novi oglas (samo kompanije)
+  
   create: async (jobData) => {
     const response = await fetch(`${API_URL}/jobs`, {
       method: 'POST',
@@ -157,7 +157,7 @@ export const jobsAPI = {
     return handleResponse(response);
   },
 
-  // Ažuriraj oglas
+  
   update: async (id, jobData) => {
     const response = await fetch(`${API_URL}/jobs/${id}`, {
       method: 'PUT',
@@ -167,7 +167,7 @@ export const jobsAPI = {
     return handleResponse(response);
   },
 
-  // Arhiviraj oglas
+  
   archive: async (jobId) => {
     const response = await fetch(`${API_URL}/jobs/${jobId}/archive`, {
       method: 'PUT',
@@ -176,7 +176,7 @@ export const jobsAPI = {
     return handleResponse(response);
   },
 
-  // Obriši oglas
+  
   delete: async (id) => {
     const response = await fetch(`${API_URL}/jobs/${id}`, {
       method: 'DELETE',
@@ -186,9 +186,9 @@ export const jobsAPI = {
   },
 };
 
-// ============= APPLICATIONS API =============
+
 export const applicationsAPI = {
-  // Apliciraj za posao
+  
   apply: async (jobId, applicationData) => {
     const isFormData = applicationData instanceof FormData;
     const response = await fetch(`${API_URL}/applications/apply/${jobId}`, {
@@ -199,7 +199,7 @@ export const applicationsAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi sve moje prijave (za studente)
+  
   getMyApplications: async () => {
     const response = await fetch(`${API_URL}/applications/my-applications`, {
       headers: getHeaders(true),
@@ -207,7 +207,7 @@ export const applicationsAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi sve prijave za specifičan oglas (za kompaniju koja je objavila oglas)
+  
   getApplicationsForJob: async (jobId) => {
     const response = await fetch(`${API_URL}/applications/job/${jobId}`, {
       headers: getHeaders(true),
@@ -215,7 +215,7 @@ export const applicationsAPI = {
     return handleResponse(response);
   },
 
-  // Ažuriraj status prijave (samo kompanije)
+  
   updateStatus: async (applicationId, status) => {
     const response = await fetch(`${API_URL}/applications/${applicationId}/status`, {
       method: 'PUT',
@@ -226,9 +226,9 @@ export const applicationsAPI = {
   },
 };
 
-// ============= STUDENT API =============
+
 export const studentAPI = {
-  // Dobavi profil
+  
   getProfile: async () => {
     const response = await fetch(`${API_URL}/student/profile`, {
       headers: getHeaders(true),
@@ -236,7 +236,7 @@ export const studentAPI = {
     return handleResponse(response);
   },
 
-  // Ažuriraj profil
+  
   updateProfile: async (profileData) => {
     const response = await fetch(`${API_URL}/student/profile`, {
       method: 'PUT',
@@ -246,7 +246,7 @@ export const studentAPI = {
     return handleResponse(response);
   },
 
-  // Upload profilne slike
+  
   uploadProfilePicture: async (file) => {
     const formData = new FormData();
     formData.append('profilePicture', file);
@@ -262,7 +262,7 @@ export const studentAPI = {
     return handleResponse(response);
   },
 
-  // Upload CV (multipart/form-data)
+  
   uploadCV: async (file) => {
     const formData = new FormData();
     formData.append('cv', file);
@@ -278,7 +278,7 @@ export const studentAPI = {
     return handleResponse(response);
   },
 
-  // Download CV
+  
   downloadCV: async () => {
     const token = getToken();
     const response = await fetch(`${API_URL}/student/download-cv`, {
@@ -294,7 +294,7 @@ export const studentAPI = {
     return response.blob();
   },
 
-  // Obriši CV
+  
   deleteCV: async () => {
     const response = await fetch(`${API_URL}/student/delete-cv`, {
       method: 'DELETE',
@@ -303,7 +303,7 @@ export const studentAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi javni profil studenta
+  
   getPublicProfile: async (studentId) => {
     const response = await fetch(`${API_URL}/student/${studentId}`, {
       headers: getHeaders(true),
@@ -312,21 +312,21 @@ export const studentAPI = {
   },
 };
 
-// ============= COMPANIES API =============
+
 export const companiesAPI = {
-  // Dobavi sve kompanije
+  
   getAll: async () => {
     const response = await fetch(`${API_URL}/companies`);
     return handleResponse(response);
   },
 
-  // Dobavi profil kompanije
+  
   getById: async (companyId) => {
     const response = await fetch(`${API_URL}/companies/${companyId}`);
     return handleResponse(response);
   },
 
-  // Dobavi moj profil kompanije
+  
   getMyProfile: async () => {
     const response = await fetch(`${API_URL}/companies/profile/me`, {
       headers: getHeaders(true),
@@ -334,7 +334,7 @@ export const companiesAPI = {
     return handleResponse(response);
   },
 
-  // Ažuriraj profil kompanije
+  
   updateProfile: async (profileData) => {
     const response = await fetch(`${API_URL}/companies/profile`, {
       method: 'PUT',
@@ -344,7 +344,7 @@ export const companiesAPI = {
     return handleResponse(response);
   },
 
-  // Upload logo kompanije
+  
   uploadLogo: async (file) => {
     const formData = new FormData();
     formData.append('profilePicture', file);
@@ -361,9 +361,9 @@ export const companiesAPI = {
   },
 };
 
-// ============= REVIEWS API =============
+
 export const reviewsAPI = {
-  // Kreiraj recenziju
+  
   create: async (companyId, reviewData) => {
     const response = await fetch(`${API_URL}/reviews/company/${companyId}`, {
       method: 'POST',
@@ -373,13 +373,13 @@ export const reviewsAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi recenzije kompanije
+  
   getByCompany: async (companyId) => {
     const response = await fetch(`${API_URL}/reviews/company/${companyId}`);
     return handleResponse(response);
   },
 
-  // Ažuriraj recenziju
+  
   update: async (reviewId, reviewData) => {
     const response = await fetch(`${API_URL}/reviews/${reviewId}`, {
       method: 'PUT',
@@ -389,7 +389,7 @@ export const reviewsAPI = {
     return handleResponse(response);
   },
 
-  // Obriši recenziju
+  
   delete: async (reviewId) => {
     const response = await fetch(`${API_URL}/reviews/${reviewId}`, {
       method: 'DELETE',
@@ -399,9 +399,9 @@ export const reviewsAPI = {
   },
 };
 
-// ============= ADMIN API =============
+
 export const adminAPI = {
-  // Dobavi statistiku
+  
   getStats: async () => {
     const response = await fetch(`${API_URL}/admin/stats`, {
       headers: getHeaders(true),
@@ -409,7 +409,7 @@ export const adminAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi sve korisnike
+  
   getAllUsers: async () => {
     const response = await fetch(`${API_URL}/admin/users`, {
       headers: getHeaders(true),
@@ -417,7 +417,7 @@ export const adminAPI = {
     return handleResponse(response);
   },
 
-  // Obriši korisnika
+  
   deleteUser: async (userId) => {
     const response = await fetch(`${API_URL}/admin/users/${userId}`, {
       method: 'DELETE',
@@ -426,7 +426,7 @@ export const adminAPI = {
     return handleResponse(response);
   },
 
-  // Obriši oglas
+  
   deleteJob: async (jobId) => {
     const response = await fetch(`${API_URL}/admin/jobs/${jobId}`, {
       method: 'DELETE',
@@ -435,7 +435,7 @@ export const adminAPI = {
     return handleResponse(response);
   },
 
-  // Dobavi sve oglase
+  
   getAllJobs: async () => {
     const response = await fetch(`${API_URL}/jobs`, {
       headers: getHeaders(true),
@@ -443,7 +443,7 @@ export const adminAPI = {
     return handleResponse(response);
   },
 
-  // Odobri oglas
+  
   approveJob: async (jobId) => {
     const response = await fetch(`${API_URL}/admin/jobs/${jobId}/approve`, {
       method: 'PUT',

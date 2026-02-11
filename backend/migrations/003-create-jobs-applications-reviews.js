@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 
 export async function up(queryInterface, Sequelize) {
-  // Create jobs table
+  
   await queryInterface.createTable('jobs', {
     id: {
       type: DataTypes.UUID,
@@ -68,7 +68,7 @@ export async function up(queryInterface, Sequelize) {
     }
   });
 
-  // Create applications table
+  
   await queryInterface.createTable('applications', {
     id: {
       type: DataTypes.UUID,
@@ -115,7 +115,7 @@ export async function up(queryInterface, Sequelize) {
     }
   });
 
-  // Create reviews table
+  
   await queryInterface.createTable('reviews', {
     id: {
       type: DataTypes.UUID,

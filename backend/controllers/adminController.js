@@ -8,13 +8,13 @@ const Company = db.Company;
 const JobSeeker = db.JobSeeker;
 const Review = db.Review;
 
-/**
- * Admin Dashboard - Statistike
- * Vraća osnovne statistike o platformi
- */
+
+
+
+
 export const getDashboardStats = async (req, res) => {
   try {
-    // Ukupan broj korisnika po ulogama
+    
     const userStats = await User.findAll({
       attributes: [
         'role',
@@ -23,7 +23,7 @@ export const getDashboardStats = async (req, res) => {
       group: ['role']
     });
 
-    // Ukupan broj oglasa po statusu
+    
     const jobStats = await Job.findAll({
       attributes: [
         'approvalStatus',
@@ -32,7 +32,7 @@ export const getDashboardStats = async (req, res) => {
       group: ['approvalStatus']
     });
 
-    // Ukupan broj prijava po statusu
+    
     const applicationStats = await Application.findAll({
       attributes: [
         'status',
@@ -41,7 +41,7 @@ export const getDashboardStats = async (req, res) => {
       group: ['status']
     });
 
-    // Aktivnosti u poslednjih 30 dana
+    
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
@@ -69,7 +69,7 @@ export const getDashboardStats = async (req, res) => {
       }
     });
 
-    // Broj verifikovanih i neverifikovanih korisnika
+    
     const verifiedUsers = await User.count({
       where: { emailVerified: true }
     });
@@ -78,7 +78,7 @@ export const getDashboardStats = async (req, res) => {
       where: { emailVerified: false }
     });
 
-    // Top 5 kompanija po broju oglasa
+    
     const topCompanies = await Company.findAll({
       attributes: [
         'id',
@@ -129,9 +129,9 @@ export const getDashboardStats = async (req, res) => {
   }
 };
 
-/**
- * Dobijanje svih oglasa koji čekaju odobrenje
- */
+
+
+
 export const getPendingJobs = async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -182,9 +182,9 @@ export const getPendingJobs = async (req, res) => {
   }
 };
 
-/**
- * Odobravanje oglasa
- */
+
+
+
 export const approveJob = async (req, res) => {
   try {
     const { jobId } = req.params;
@@ -228,9 +228,9 @@ export const approveJob = async (req, res) => {
   }
 };
 
-/**
- * Odbijanje oglasa
- */
+
+
+
 export const rejectJob = async (req, res) => {
   try {
     const { jobId } = req.params;
@@ -275,9 +275,9 @@ export const rejectJob = async (req, res) => {
   }
 };
 
-/**
- * Arhiviranje oglasa
- */
+
+
+
 export const archiveJob = async (req, res) => {
   try {
     const { jobId } = req.params;
@@ -310,9 +310,9 @@ export const archiveJob = async (req, res) => {
   }
 };
 
-/**
- * Dobijanje svih korisnika sa filterima
- */
+
+
+
 export const getAllUsers = async (req, res) => {
   try {
     console.log('👥 getAllUsers called by user:', req.user?.id, 'role:', req.user?.role);
@@ -374,9 +374,9 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-/**
- * Promena uloge korisnika
- */
+
+
+
 export const changeUserRole = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -399,7 +399,7 @@ export const changeUserRole = async (req, res) => {
       });
     }
 
-    // Ne dozvoli promenu sopstvene uloge
+    
     if (user.id === req.user.id) {
       return res.status(400).json({
         success: false,
@@ -430,9 +430,9 @@ export const changeUserRole = async (req, res) => {
   }
 };
 
-/**
- * Deaktivacija korisničkog naloga
- */
+
+
+
 export const deactivateUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -446,7 +446,7 @@ export const deactivateUser = async (req, res) => {
       });
     }
 
-    // Ne dozvoli deaktivaciju sopstvenog naloga
+    
     if (user.id === req.user.id) {
       return res.status(400).json({
         success: false,
@@ -475,9 +475,9 @@ export const deactivateUser = async (req, res) => {
   }
 };
 
-/**
- * Reaktivacija korisničkog naloga
- */
+
+
+
 export const reactivateUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -512,9 +512,9 @@ export const reactivateUser = async (req, res) => {
   }
 };
 
-/**
- * Brisanje korisnika
- */
+
+
+
 export const deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -531,7 +531,7 @@ export const deleteUser = async (req, res) => {
       });
     }
 
-    // Ne dozvoli brisanje sebe
+    
     if (user.id === req.user.id) {
       console.log('❌ Admin tried to delete themselves');
       return res.status(400).json({
@@ -560,9 +560,9 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-/**
- * Brisanje oglasa (admin)
- */
+
+
+
 export const deleteJobAdmin = async (req, res) => {
   try {
     const { jobId } = req.params;

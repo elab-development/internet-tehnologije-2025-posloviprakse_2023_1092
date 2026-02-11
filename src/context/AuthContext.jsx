@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     return { token: tokenFromResponse, user: userFromResponse };
   };
 
-  // Učitaj korisnika iz localStorage pri mount-u
+  
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Login funkcija
+  
   const login = async (email, password) => {
     try {
       const data = await authAPI.login({ email, password });
@@ -61,11 +61,11 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Neispravan odgovor servera');
       }
       
-      // Sačuvaj u localStorage
+      
       localStorage.setItem('token', authPayload.token);
       localStorage.setItem('user', JSON.stringify(authPayload.user));
       
-      // Postavi u state
+      
       setToken(authPayload.token);
       setUser(authPayload.user);
       
@@ -75,13 +75,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Register funkcija
+  
   const register = async (userData) => {
     try {
       const data = await authAPI.register(userData);
       const authPayload = extractAuthPayload(data);
       
-      // Ako backend automatski loguje korisnika nakon registracije
+      
       if (authPayload?.token && authPayload?.user) {
         localStorage.setItem('token', authPayload.token);
         localStorage.setItem('user', JSON.stringify(authPayload.user));
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout funkcija
+  
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -103,34 +103,34 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // Update user info (nakon edit profila)
+  
   const updateUser = (updatedUserData) => {
     const updatedUser = { ...user, ...updatedUserData };
     setUser(updatedUser);
     localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
-  // Proveri da li je korisnik ulogovan
+  
   const isAuthenticated = () => {
     return !!token && !!user;
   };
 
-  // Proveri rolu korisnika
+  
   const hasRole = (role) => {
     return user?.role === role;
   };
 
-  // Proveri da li je student/alumni
+  
   const isStudent = () => {
     return user?.role === 'student' || user?.role === 'alumni';
   };
 
-  // Proveri da li je kompanija
+  
   const isCompany = () => {
     return user?.role === 'company';
   };
 
-  // Proveri da li je admin
+  
   const isAdmin = () => {
     return user?.role === 'admin';
   };

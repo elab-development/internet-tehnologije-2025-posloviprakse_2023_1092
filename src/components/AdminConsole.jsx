@@ -28,13 +28,13 @@ export default function AdminConsole() {
   const checkConnections = async () => {
     setLoading(true);
     try {
-      // Get API URL from environment or use default
+      
       const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const healthCheckUrl = apiBaseUrl.replace('/api', '') + '/api/health';
       
       console.log('🔍 Health check URL:', healthCheckUrl);
       
-      // Check Backend + Database via health endpoint
+      
       const healthCheck = await fetch(healthCheckUrl).catch((err) => {
         console.error('Health check fetch error:', err);
         return null;
@@ -54,26 +54,26 @@ export default function AdminConsole() {
           api: 'CONNECTED ✅'
         }));
         
-        // Fetch data if everything is connected
+        
         if (healthData.database === 'CONNECTED') {
           await fetchAllData();
         }
       } else {
-        console.log('❌ Health check failed:', healthCheck?.status);
+        console.log(' Health check failed:', healthCheck?.status);
         setConnections(prev => ({
           ...prev,
-          backend: 'DISCONNECTED ❌',
-          database: 'DISCONNECTED ❌',
-          api: 'DISCONNECTED ❌'
+          backend: 'DISCONNECTED ',
+          database: 'DISCONNECTED ',
+          api: 'DISCONNECTED '
         }));
       }
     } catch (err) {
       console.error('Error checking connections:', err);
       setConnections(prev => ({
         ...prev,
-        backend: 'ERROR ⚠️',
-        database: 'ERROR ⚠️',
-        api: 'ERROR ⚠️'
+        backend: 'ERROR ',
+        database: 'ERROR ',
+        api: 'ERROR '
       }));
     } finally {
       setLoading(false);
@@ -82,30 +82,30 @@ export default function AdminConsole() {
 
   const fetchAllData = async () => {
     try {
-      console.log('📥 Fetching admin data...');
+      console.log(' Fetching admin data...');
       
-      // Try to fetch users via API service
+      
       try {
-        console.log('👥 Fetching users from API...');
+        console.log(' Fetching users from API...');
         const usersData = await adminAPI.getAllUsers();
-        console.log('✅ Users data received:', usersData);
+        console.log(' Users data received:', usersData);
         const userData = usersData.data?.users || usersData.data || [];
-        console.log('📋 Processed users:', userData);
+        console.log(' Processed users:', userData);
         setUsers(Array.isArray(userData) ? userData : []);
       } catch (err) {
-        console.error('❌ Cannot fetch users:', err.message, err.response?.data || err);
+        console.error(' Cannot fetch users:', err.message, err.response?.data || err);
       }
 
-      // Try to fetch jobs
+      
       try {
-        console.log('📑 Fetching jobs from API...');
+        console.log(' Fetching jobs from API...');
         const jobsData = await jobsAPI.getAll();
-        console.log('✅ Jobs data received:', jobsData);
+        console.log(' Jobs data received:', jobsData);
         const jobsList = jobsData.data || [];
-        console.log('📋 Processed jobs:', jobsList);
+        console.log(' Processed jobs:', jobsList);
         setJobs(Array.isArray(jobsList) ? jobsList : []);
       } catch (err) {
-        console.error('❌ Cannot fetch jobs:', err.message, err);
+        console.error('s Cannot fetch jobs:', err.message, err);
       }
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -118,7 +118,7 @@ export default function AdminConsole() {
       await adminAPI.deleteUser(userId);
       setUsers(users.filter(u => u.id !== userId));
       setDeleteConfirm(null);
-      alert(`✅ Korisnik ${userName} je brisan`);
+      alert(` Korisnik ${userName} je brisan`);
     } catch (err) {
       console.error('Error deleting user:', err);
       alert(`❌ Greška pri brisanju korisnika: ${err.response?.data?.message || err.message}`);
@@ -133,7 +133,7 @@ export default function AdminConsole() {
       await adminAPI.deleteJob(jobId);
       setJobs(jobs.filter(j => j.id !== jobId));
       setDeleteConfirm(null);
-      alert(`✅ Oglas "${jobTitle}" je brisan`);
+      alert(` Oglas "${jobTitle}" je brisan`);
     } catch (err) {
       console.error('Error deleting job:', err);
       alert(`❌ Greška pri brisanju oglasa: ${err.response?.data?.message || err.message}`);
@@ -145,7 +145,6 @@ export default function AdminConsole() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950 pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-14 h-14 rounded-full bg-red-500/20 flex items-center justify-center">
@@ -160,7 +159,6 @@ export default function AdminConsole() {
           </p>
         </div>
 
-        {/* Refresh Button */}
         <button
           onClick={checkConnections}
           disabled={loading}
@@ -214,7 +212,6 @@ export default function AdminConsole() {
           </button>
         </div>
 
-        {/* Content */}
         {activeTab === 'connections' && (
           <div className="space-y-4">
             <ConnectionCard
@@ -407,7 +404,6 @@ export default function AdminConsole() {
           </div>
         )}
 
-        {/* Confirmation Dialog */}
         {deleteConfirm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-slate-800 rounded-2xl border border-slate-700 p-8 max-w-md">

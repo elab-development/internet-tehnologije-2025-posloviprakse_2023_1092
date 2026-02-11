@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 
 export async function up(queryInterface, Sequelize) {
-  // Create job_seekers table
+  
   await queryInterface.createTable('job_seekers', {
     id: {
       type: DataTypes.UUID,
@@ -52,7 +52,7 @@ export async function up(queryInterface, Sequelize) {
     }
   });
 
-  // Create companies table
+  
   await queryInterface.createTable('companies', {
     id: {
       type: DataTypes.UUID,
@@ -116,3 +116,6 @@ export async function down(queryInterface, Sequelize) {
   await queryInterface.dropTable('job_seekers');
   await queryInterface.dropTable('companies');
 }
+/*
+Bilo sta
+ */

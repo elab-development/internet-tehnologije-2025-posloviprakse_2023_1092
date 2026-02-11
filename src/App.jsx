@@ -40,7 +40,6 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/jobs" element={<JobListPage />} />
         
-        {/* Privatna ruta - samo company i alumni */}
         <Route 
           path="/create-job" 
           element={
@@ -52,7 +51,6 @@ function App() {
         
         <Route path="/job/:id" element={<JobDetailPage />} />
         
-        {/* Privatna ruta - samo student/alumni */}
         <Route 
           path="/my-applications" 
           element={
@@ -62,7 +60,6 @@ function App() {
           } 
         />
         
-        {/* Privatna ruta - samo company */}
         <Route 
           path="/applications" 
           element={
@@ -72,7 +69,6 @@ function App() {
           } 
         />
 
-        {/* Privatna ruta - samo company i alumni */}
         <Route 
           path="/my-jobs" 
           element={
@@ -82,7 +78,6 @@ function App() {
           } 
         />
         
-        {/* Privatna ruta - samo admin */}
         <Route 
           path="/admin-console" 
           element={

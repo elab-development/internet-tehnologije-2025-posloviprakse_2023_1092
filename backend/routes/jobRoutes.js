@@ -14,7 +14,7 @@ import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// Create job (only company/alumni)
+
 router.post('/', 
   authenticateToken,
   authorizeRole(['company', 'alumni', 'admin']),
@@ -30,22 +30,22 @@ router.post('/',
   createJob
 );
 
-// Get all jobs
+
 router.get('/', getAllJobs);
 
-// Get my jobs (only authenticated company/alumni)
+
 router.get('/my-jobs',
   authenticateToken,
   authorizeRole(['company', 'alumni']),
   getMyJobs
 );
 
-// Get job by ID
+
 router.get('/:id', [
   param('id').isUUID().withMessage('Nevažeći ID oglasa')
 ], handleValidationErrors, getJobById);
 
-// Update job (only owner)
+
 router.put('/:id',
   authenticateToken,
   authorizeRole(['company', 'alumni', 'admin']),
@@ -56,7 +56,7 @@ router.put('/:id',
   updateJob
 );
 
-// Archive job (only owner)
+
 router.put('/:jobId/archive',
   authenticateToken,
   authorizeRole(['company', 'alumni']),
@@ -67,7 +67,7 @@ router.put('/:jobId/archive',
   archiveJob
 );
 
-// Delete job (only owner)
+
 router.delete('/:id',
   authenticateToken,
   authorizeRole(['company', 'alumni', 'admin']),

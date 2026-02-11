@@ -84,7 +84,7 @@ export default function AuthModal({ isOpen, onClose }) {
       }
 
       setSuccess('✅ Registracija uspešna! Prijavljen si kao ' + selectedRole);
-      // useEffect će se pobrinuti za zatvaranje modala kada se user osvezi
+      
     } catch (err) {
       setError('Greška pri konekciji');
       console.error(err);
@@ -112,7 +112,7 @@ export default function AuthModal({ isOpen, onClose }) {
       }
       
       setSuccess('✅ Uspešna prijava!');
-      // useEffect će se pobrinuti za zatvaranje modala kada se user osvezi
+      
     } catch (err) {
       setError('Greška pri konekciji');
       console.error(err);
@@ -124,7 +124,6 @@ export default function AuthModal({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-        {/* Header */}
         <div className="sticky top-0 bg-slate-950 text-white p-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold font-display">
             {isLogin ? 'Prijava' : 'Registracija'}
@@ -137,7 +136,6 @@ export default function AuthModal({ isOpen, onClose }) {
           </button>
         </div>
         <div className="p-6">
-          {/* Toggle Login/Register */}
           <div className="flex gap-2 mb-6">
             <button
               onClick={() => {
@@ -236,7 +234,6 @@ export default function AuthModal({ isOpen, onClose }) {
               </>
             )}
 
-            {/* Email */}
             <input
               type="email"
               name="email"
@@ -246,7 +243,6 @@ export default function AuthModal({ isOpen, onClose }) {
               className="w-full px-4 py-2 border border-slate-300 rounded-lg mb-4 focus:outline-none focus:border-emerald-400"
             />
 
-            {/* Password */}
             <div className="relative mb-4">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -265,7 +261,6 @@ export default function AuthModal({ isOpen, onClose }) {
               </button>
             </div>
 
-            {/* Confirm Password (Register only) */}
             {!isLogin && (
               <input
                 type="password"
@@ -277,7 +272,6 @@ export default function AuthModal({ isOpen, onClose }) {
               />
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -294,7 +288,6 @@ export default function AuthModal({ isOpen, onClose }) {
             </button>
           </form>
 
-          {/* Footer */}
           <p className="text-center text-slate-600 text-sm mt-4">
             {isLogin ? 'Nemaš nalog?' : 'Već imaš nalog?'}{' '}
             <button

@@ -1,10 +1,10 @@
-/**
- * Master Controllers Index
- * Kombinuje sve kontrolere u jedno mesto za lakši import
- * 
- * Korišćenje:
- * import { authControllers, jobControllers, ... } from '../controllers/index.js'
- */
+
+
+
+
+
+
+
 
 import * as authControllers from './authController.js';
 import * as jobControllers from './jobController.js';
@@ -24,7 +24,7 @@ export {
   adminControllers
 };
 
-// Ako želiš direktan pristup funkcijama:
+
 export * from './authController.js';
 export * from './jobController.js';
 export * from './companyController.js';

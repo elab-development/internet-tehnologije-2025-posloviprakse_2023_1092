@@ -186,22 +186,22 @@ export const uploadCompanyLogo = async (req, res) => {
       });
     }
 
-    // Pokušaj da obriš stari logo ako postoji
+    
     if (company.logo && company.logo.startsWith('/uploads/')) {
       console.log('🗑️ Attempting to delete old logo...');
       const oldPath = path.join(__dirname, '..', company.logo);
       deleteFile(oldPath);
     }
 
-    // Provera da li se logo čuva kao put ili kao Base64
+    
     let logoValue;
     
-    // Pokušaj da koristiš fajl sistem put
+    
     if (req.file && req.file.filename) {
       logoValue = `/uploads/profile-pictures/${req.file.filename}`;
       console.log('✅ Using file system path:', logoValue);
     } else if (req.file && req.file.buffer) {
-      // Fallback: koristiš Base64 ako nema filename-a
+      
       const base64 = req.file.buffer.toString('base64');
       logoValue = `data:${req.file.mimetype};base64,${base64}`;
       console.log('📝 Using Base64 encoded image (size:', base64.length, 'chars)');

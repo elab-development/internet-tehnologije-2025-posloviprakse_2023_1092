@@ -6,7 +6,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Kreiranje uploads direktorijuma ako ne postoji
+
 const uploadsDir = path.join(__dirname, '../uploads');
 const cvDir = path.join(uploadsDir, 'cvs');
 const profilePicDir = path.join(uploadsDir, 'profile-pictures');
@@ -17,24 +17,24 @@ const profilePicDir = path.join(uploadsDir, 'profile-pictures');
   }
 });
 
-/**
- * Multer storage konfiguracija za CV fajlove
- */
+
+
+
 const cvStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, cvDir);
   },
   filename: (req, file, cb) => {
-    // Generisanje unique filename: userId-timestamp-originalname
+    
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const sanitizedFilename = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_');
     cb(null, `cv-${req.user.id}-${uniqueSuffix}-${sanitizedFilename}`);
   }
 });
 
-/**
- * Multer storage konfiguracija za profile slike
- */
+
+
+
 const profilePicStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, profilePicDir);
@@ -46,9 +46,9 @@ const profilePicStorage = multer.diskStorage({
   }
 });
 
-/**
- * File filter za CV fajlove - dozvoljava samo PDF i DOCX
- */
+
+
+
 const cvFileFilter = (req, file, cb) => {
   const allowedMimeTypes = [
     'application/pdf',
@@ -63,9 +63,9 @@ const cvFileFilter = (req, file, cb) => {
   }
 };
 
-/**
- * File filter za profile slike - dozvoljava samo slike
- */
+
+
+
 const imageFileFilter = (req, file, cb) => {
   const allowedMimeTypes = [
     'image/jpeg',
@@ -82,34 +82,34 @@ const imageFileFilter = (req, file, cb) => {
   }
 };
 
-/**
- * Multer middleware za upload CV-ja
- * Limit: 5MB
- */
+
+
+
+
 export const uploadCV = multer({
   storage: cvStorage,
   fileFilter: cvFileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB
+    fileSize: 5 * 1024 * 1024 
   }
-}).single('cv'); // Ime polja u formi: 'cv'
+}).single('cv'); 
 
-/**
- * Multer middleware za upload profile pictures
- * Koristi memory storage za Render ephemeral filesystem
- * Limit: 2MB
- */
+
+
+
+
+
 export const uploadProfilePicture = multer({
-  storage: multer.memoryStorage(), // Use memory storage instead of disk for Render
+  storage: multer.memoryStorage(), 
   fileFilter: imageFileFilter,
   limits: {
-    fileSize: 2 * 1024 * 1024 // 2MB
+    fileSize: 2 * 1024 * 1024 
   }
 }).single('profilePicture');
 
-/**
- * Error handler middleware za Multer greške
- */
+
+
+
 export const handleUploadError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
@@ -131,9 +131,9 @@ export const handleUploadError = (err, req, res, next) => {
   next();
 };
 
-/**
- * Funkcija za brisanje fajla sa servera
- */
+
+
+
 export const deleteFile = (filePath) => {
   try {
     if (fs.existsSync(filePath)) {

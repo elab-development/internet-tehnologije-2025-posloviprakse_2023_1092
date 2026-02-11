@@ -1,4 +1,4 @@
-// src/data/blogData.js
+
 
 export const blogPosts = [
   {

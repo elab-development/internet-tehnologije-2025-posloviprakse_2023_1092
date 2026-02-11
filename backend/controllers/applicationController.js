@@ -9,7 +9,7 @@ export const applyForJob = async (req, res) => {
     const { jobId } = req.params;
     const { coverLetter } = req.body;
 
-    // Get job seeker
+    
     const jobSeeker = await JobSeeker.findOne({ where: { userId: req.user.id } });
 
     if (!jobSeeker) {
@@ -19,7 +19,7 @@ export const applyForJob = async (req, res) => {
       });
     }
 
-    // Check if job exists
+    
     const job = await Job.findByPk(jobId);
 
     if (!job) {
@@ -29,7 +29,7 @@ export const applyForJob = async (req, res) => {
       });
     }
 
-    // Check if already applied
+    
     const existingApplication = await Application.findOne({
       where: { jobId, jobSeekerId: jobSeeker.id }
     });

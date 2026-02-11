@@ -1,12 +1,3 @@
-/**
- * Test Data Seed
- * Ovo će dodati test korisnike, kompanije i oglase u bazu
- * 
- * Korišćenje:
- *  import seedDatabase from './migrations/seed.js'
- *  await seedDatabase()
- */
-
 import db from '../models/index.js';
 import { hashPassword } from '../utils/password.js';
 
@@ -18,9 +9,9 @@ const Application = db.Application;
 
 export const seedDatabase = async () => {
   try {
-    console.log('🌱 Počinjem seed-ovanje baze...');
+    console.log('Seedujemo bazu :D');
 
-    // ============ KORISNICI ============
+    
     const [adminUser, adminCreated] = await User.findOrCreate({
       where: { email: 'skale@gmail.com' },
       defaults: {
@@ -79,7 +70,7 @@ export const seedDatabase = async () => {
       }
     });
 
-    // ============ JOB SEEKER PROFIL ============
+    
     await JobSeeker.findOrCreate({
       where: { userId: testUser1[0].id },
       defaults: {
@@ -90,7 +81,7 @@ export const seedDatabase = async () => {
       }
     });
 
-    // ============ KOMPANIJE ============
+    
     const company1 = await Company.findOrCreate({
       where: { userId: testUser2[0].id },
       defaults: {
@@ -113,7 +104,7 @@ export const seedDatabase = async () => {
       }
     });
 
-    // ============ OGLASI ============
+    
     const testJobs = [
       {
         companyId: company1[0].id,
@@ -187,7 +178,7 @@ export const seedDatabase = async () => {
       });
     }
 
-    // ============ PRIJAVE ============
+    
     const jobSeeker = await JobSeeker.findOne({ where: { userId: testUser1[0].id } });
     const firstJob = await Job.findOne({
       where: { title: 'Junior Frontend Developer', companyId: company1[0].id }
@@ -205,16 +196,16 @@ export const seedDatabase = async () => {
       });
     }
 
-    console.log('✅ Baza je seed-ovana sa test podacima!');
-    console.log('\n📋 Test Kredencijali:');
+    console.log('Baza je seed-ovana sa test podacima :D !');
+    console.log('\n Test Kredencijali:');
     console.log('  Admin: skale@gmail.com / lozinka123');
     console.log('  Student: student@test.com / TEST123');
     console.log('  Company: company@test.com / TEST123');
     console.log('  Alumni: alumni@test.com / TEST123');
-    console.log('\n💼 Dodati oglasi: 5 test oglasa');
+    console.log('\n Dodati oglasi: 5 test oglasa');
 
   } catch (error) {
-    console.error('❌ Greška pri seed-ovanju:', error);
+    console.error('Greška pri seed-ovanju:', error);
   }
 };
 

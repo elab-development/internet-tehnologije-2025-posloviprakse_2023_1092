@@ -21,7 +21,7 @@ export default function ApplicationsPage() {
       return;
     }
 
-    // Samo kompanije mogu pristupiti ovoj stranici
+    
     if (!token || !user || user.role !== 'company') {
       navigate('/');
       return;
@@ -35,7 +35,7 @@ export default function ApplicationsPage() {
       setLoading(true);
       const response = await jobsAPI.getMyJobs();
       setJobs(response.data || []);
-      // Automatski selektuj prvi oglas ako postoji
+      
       if (response.data && response.data.length > 0) {
         setSelectedJob(response.data[0].id);
         fetchApplicationsForJob(response.data[0].id);
@@ -70,7 +70,7 @@ export default function ApplicationsPage() {
     try {
       setUpdatingAppId(appId);
       await applicationsAPI.updateStatus(appId, newStatus);
-      // Ažurira lokalni state
+      
       setApplications(
         applications.map((app) =>
           app.id === appId ? { ...app, status: newStatus } : app
@@ -135,7 +135,6 @@ export default function ApplicationsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-display font-bold text-slate-950 mb-2">
             📨 Aplikacije
@@ -164,7 +163,6 @@ export default function ApplicationsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Jobs List */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow border border-slate-100 overflow-hidden sticky top-24">
                 <div className="bg-emerald-50 p-4 border-b border-slate-100">
@@ -196,7 +194,6 @@ export default function ApplicationsPage() {
               </div>
             </div>
 
-            {/* Applications List */}
             <div className="lg:col-span-2">
               {selectedJobData && (
                 <div>

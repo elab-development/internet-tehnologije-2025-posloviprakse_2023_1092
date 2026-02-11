@@ -10,10 +10,10 @@ import {
 
 const User = db.User;
 
-/**
- * Registracija novog korisnika
- * Kreira User sa odgovarajućom ulogom i šalje verifikacioni email
- */
+
+
+
+
 export const register = async (req, res) => {
   try {
     console.log('📝 Starting registration process...');
@@ -28,7 +28,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // Validacija dozvoljenih uloga
+    
     const allowedRoles = ['student', 'alumni', 'company', 'admin'];
     if (role && !allowedRoles.includes(role)) {
       console.log('❌ Invalid role:', role);
@@ -39,7 +39,7 @@ export const register = async (req, res) => {
     }
 
     console.log('✅ Step 2: Checking if user exists...');
-    // Provera da li korisnik već postoji
+    
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       console.log('❌ User already exists:', email);
@@ -50,14 +50,14 @@ export const register = async (req, res) => {
     }
 
     console.log('✅ Step 3: Hashing password...');
-    // Hash lozinke
+    
     const hashedPassword = hashPassword(password);
 
-    // Generisanje email verifikacijskog tokena
+    
     const emailVerificationToken = generateEmailToken();
 
     console.log('✅ Step 4: Creating user in database...');
-    // Kreiranje korisnika
+    
     const newUser = await User.create({
       firstName,
       lastName,
@@ -70,7 +70,7 @@ export const register = async (req, res) => {
     console.log('✅ User created with ID:', newUser.id);
 
     console.log('✅ Step 5: Creating role-specific profile...');
-    // Kreiranje odgovarajućeg profila na osnovu uloge
+    
     if (newUser.role === 'student' || newUser.role === 'alumni') {
       await db.JobSeeker.create({ 
         userId: newUser.id,
@@ -92,11 +92,11 @@ export const register = async (req, res) => {
     }
 
     console.log('✅ Step 6: Generating JWT token...');
-    // Generisanje JWT tokena
+    
     const token = generateToken(newUser.id, newUser.email, newUser.role);
 
-    // Slanje verifikacijskog emaila - ASINKRONO (bez čekanja)
-    // Ovo se dešava u pozadini i ne blokira response
+    
+    
     if (process.env.NODE_ENV === 'production') {
       sendVerificationEmail(email, emailVerificationToken, firstName).catch((err) => {
         console.error('⚠️ Email sending failed (non-blocking):', err.message);
@@ -130,17 +130,17 @@ export const register = async (req, res) => {
   }
 };
 
-/**
- * Login korisnika
- * Proverava kredencijale i vraća JWT token
- */
+
+
+
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     console.log('🔐 Login attempt for email:', email);
 
-    // Pronalaženje korisnika po email-u
+    
     console.log('📧 Finding user...');
     const user = await User.findOne({ where: { email } });
 
@@ -154,7 +154,7 @@ export const login = async (req, res) => {
 
     console.log('✅ User found:', user.id);
 
-    // Provera lozinke
+    
     console.log('🔑 Comparing passwords...');
     const isPasswordValid = comparePassword(password, user.password);
 
@@ -168,7 +168,7 @@ export const login = async (req, res) => {
 
     console.log('✅ Password valid');
 
-    // Provera da li je nalog aktivan
+    
     if (!user.isActive) {
       console.log('❌ Account inactive');
       return res.status(403).json({
@@ -179,16 +179,16 @@ export const login = async (req, res) => {
 
     console.log('✅ Account is active');
 
-    // Upozorenje ako email nije verifikovan (opciono - ne blokira login)
+    
     const emailWarning = !user.emailVerified 
       ? 'Vaš email nije verifikovan. Proverite inbox za verifikacioni link.' 
       : null;
 
-    // Ažuriranje lastLogin vremena
+    
     console.log('⏰ Updating lastLogin...');
     await user.update({ lastLogin: new Date() });
 
-    // Generisanje JWT tokena
+    
     console.log('🎫 Generating JWT token...');
     const token = generateToken(user.id, user.email, user.role);
 
@@ -226,10 +226,10 @@ export const login = async (req, res) => {
   }
 };
 
-/**
- * Verifikacija email adrese
- * Proverava token i aktivira nalog
- */
+
+
+
+
 export const verifyEmail = async (req, res) => {
   try {
     const { token } = req.body;
@@ -241,7 +241,7 @@ export const verifyEmail = async (req, res) => {
       });
     }
 
-    // Pronalaženje korisnika sa ovim tokenom
+    
     const user = await User.findOne({ 
       where: { emailVerificationToken: token } 
     });
@@ -253,7 +253,7 @@ export const verifyEmail = async (req, res) => {
       });
     }
 
-    // Provera da li je već verifikovan
+    
     if (user.emailVerified) {
       return res.status(400).json({
         success: false,
@@ -261,7 +261,7 @@ export const verifyEmail = async (req, res) => {
       });
     }
 
-    // Verifikacija emaila
+    
     await user.update({
       emailVerified: true,
       emailVerificationToken: null
@@ -281,10 +281,10 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-/**
- * Zahtev za resetovanje lozinke
- * Generiše reset token i šalje email
- */
+
+
+
+
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -296,27 +296,27 @@ export const forgotPassword = async (req, res) => {
       });
     }
 
-    // Pronalaženje korisnika
+    
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      // Iz bezbednosnih razloga, ne otkrivamo da li email postoji
+      
       return res.status(200).json({
         success: true,
         message: 'Ako nalog sa ovim emailom postoji, poslaćemo instrukcije za reset lozinke.'
       });
     }
 
-    // Generisanje reset tokena koji ističe za 1 sat
+    
     const resetToken = generateEmailToken();
-    const resetExpires = new Date(Date.now() + 3600000); // 1 sat
+    const resetExpires = new Date(Date.now() + 3600000); 
 
     await user.update({
       passwordResetToken: resetToken,
       passwordResetExpires: resetExpires
     });
 
-    // Slanje reset emaila
+    
     try {
       await sendPasswordResetEmail(email, resetToken, user.firstName);
     } catch (emailError) {
@@ -341,10 +341,10 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-/**
- * Resetovanje lozinke sa tokenom
- * Proverava token i postavlja novu lozinku
- */
+
+
+
+
 export const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
@@ -356,7 +356,7 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Validacija nove lozinke
+    
     if (newPassword.length < 6) {
       return res.status(400).json({
         success: false,
@@ -364,12 +364,12 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Pronalaženje korisnika sa validnim reset tokenom
+    
     const user = await User.findOne({
       where: {
         passwordResetToken: token,
         passwordResetExpires: {
-          [db.Sequelize.Op.gt]: new Date() // Token nije istekao
+          [db.Sequelize.Op.gt]: new Date() 
         }
       }
     });
@@ -381,22 +381,22 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Hash nove lozinke
+    
     const hashedPassword = hashPassword(newPassword);
 
-    // Ažuriranje lozinke i brisanje reset tokena
+    
     await user.update({
       password: hashedPassword,
       passwordResetToken: null,
       passwordResetExpires: null
     });
 
-    // Slanje potvrde o promeni lozinke
+    
     try {
       await sendPasswordChangeConfirmation(user.email, user.firstName);
     } catch (emailError) {
       console.error('Confirmation email failed:', emailError);
-      // Nastavljamo čak i ako confirmation email ne uspe
+      
     }
 
     return res.status(200).json({
@@ -413,9 +413,9 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-/**
- * Ponovno slanje verifikacijskog emaila
- */
+
+
+
 export const resendVerificationEmail = async (req, res) => {
   try {
     const { email } = req.body;
@@ -436,11 +436,11 @@ export const resendVerificationEmail = async (req, res) => {
       });
     }
 
-    // Generisanje novog tokena
+    
     const newToken = generateEmailToken();
     await user.update({ emailVerificationToken: newToken });
 
-    // Slanje emaila
+    
     await sendVerificationEmail(email, newToken, user.firstName);
 
     return res.status(200).json({
@@ -457,9 +457,9 @@ export const resendVerificationEmail = async (req, res) => {
   }
 };
 
-/**
- * Logout korisnika (client-side će obrisati token)
- */
+
+
+
 export const logout = async (req, res) => {
   return res.status(200).json({
     success: true,
@@ -467,9 +467,9 @@ export const logout = async (req, res) => {
   });
 };
 
-/**
- * Dobijanje trenutno ulogovanog korisnika sa profilom
- */
+
+
+
 export const getCurrentUser = async (req, res) => {
   try {
     const userId = req.user.id;

@@ -73,7 +73,7 @@ export default function MyJobsPage() {
     try {
       setActioningJobId(jobId);
       await jobsAPI.delete(jobId);
-      // Uklonji oglas iz state-a
+      
       setJobs(jobs.filter((job) => job.id !== jobId));
     } catch (err) {
       setError('Greška pri brisanju oglasa');
@@ -133,7 +133,7 @@ export default function MyJobsPage() {
     setEditFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Filtriraj oglase
+  
   const filteredJobs = showArchived 
     ? jobs.filter((job) => job.isArchived) 
     : jobs.filter((job) => !job.isArchived);
@@ -152,20 +152,17 @@ export default function MyJobsPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Moji oglasi</h1>
           <p className="text-gray-600">Upravljajte vašim objavljenim oglas</p>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
             <p className="text-red-800">{error}</p>
           </div>
         )}
 
-        {/* Filter Tabs */}
         <div className="mb-6 flex gap-4 border-b border-gray-200">
           <button
             onClick={() => setShowArchived(false)}
@@ -189,7 +186,6 @@ export default function MyJobsPage() {
           </button>
         </div>
 
-        {/* Jobs List */}
         {filteredJobs.length === 0 ? (
           <div className="text-center py-12">
             <Briefcase className="mx-auto h-12 w-12 text-gray-400 mb-4" />
@@ -238,7 +234,6 @@ export default function MyJobsPage() {
                     </div>
                   </div>
 
-                  {/* Status Badge */}
                   <div className="ml-4">
                     {job.isArchived ? (
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
@@ -264,10 +259,8 @@ export default function MyJobsPage() {
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className="text-gray-700 mb-4 line-clamp-2">{job.description}</p>
 
-                {/* Required Skills */}
                 {job.requiredSkills && job.requiredSkills.length > 0 && (
                   <div className="mb-4">
                     <p className="text-sm text-gray-600 mb-2">Tražene veštine:</p>
@@ -284,7 +277,6 @@ export default function MyJobsPage() {
                   </div>
                 )}
 
-                {/* Actions */}
                 <div className="flex gap-3 pt-4 border-t border-gray-200">
                   {!job.isArchived ? (
                     <>
@@ -331,7 +323,6 @@ export default function MyJobsPage() {
                   )}
                 </div>
 
-                {/* Edit Modal */}
                 {editingJob === job.id && (
                   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">

@@ -3,19 +3,19 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 
-/**
- * Privatna ruta - sprečava pristup ako korisnik nije prijavljen ili nema dozvoljene uloge
- * 
- * @param {Object} props
- * @param {React.ReactNode} props.children - Komponenta koja se prikazuje ako je pristup dozvoljen
- * @param {String[]} props.allowedRoles - Dozvoljene uloge (npr. ['company', 'alumni'])
- * @returns {JSX.Element}
- */
+
+
+
+
+
+
+
+
 export default function PrivateRoute({ children, allowedRoles = [] }) {
   const { user, loading } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Čekaj da se auth učita
+  
   if (loading) {
     return (
       <div className="fixed inset-0 bg-white/80 flex items-center justify-center z-50">
@@ -27,7 +27,7 @@ export default function PrivateRoute({ children, allowedRoles = [] }) {
     );
   }
 
-  // Ako korisnik nije prijavljen, prikaži AuthModal
+  
   if (!user) {
     return (
       <>
@@ -48,7 +48,7 @@ export default function PrivateRoute({ children, allowedRoles = [] }) {
     );
   }
 
-  // Ako su specificisane dozvoljene uloge, provjeri da li korisnik ima jednu od njih
+  
   if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-20 flex items-center justify-center">
@@ -60,6 +60,6 @@ export default function PrivateRoute({ children, allowedRoles = [] }) {
     );
   }
 
-  // Svi uslovi su ispunjeni - prikaži komponentu
+  
   return children;
 }

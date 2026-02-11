@@ -84,7 +84,6 @@ export default function JobListPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar Filters */}
           <div className={`lg:block ${showFilters ? 'block' : 'hidden'}`}>
             <div className="bg-white rounded-2xl shadow border border-slate-100 p-6">
               <div className="flex justify-between items-center mb-6">
@@ -97,7 +96,6 @@ export default function JobListPage() {
                 </button>
               </div>
 
-              {/* Location Filter */}
               <div className="mb-6">
                 <label className="text-sm font-semibold text-slate-700 block mb-3">Lokacija</label>
                 <input
@@ -109,7 +107,6 @@ export default function JobListPage() {
                 />
               </div>
 
-              {/* Job Type Filter */}
               <div className="mb-6">
                 <label className="text-sm font-semibold text-slate-700 block mb-3">Tip Angažmana</label>
                 <select
@@ -158,7 +155,6 @@ export default function JobListPage() {
 
           {/* Job Listings */}
           <div className="lg:col-span-3">
-            {/* Mobile Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="lg:hidden mb-6 w-full px-4 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold flex items-center justify-center gap-2 hover:bg-slate-100 transition"

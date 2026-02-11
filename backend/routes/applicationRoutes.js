@@ -12,7 +12,7 @@ import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// Apply for job (only students/alumni)
+
 router.post('/apply/:jobId',
   authenticateToken,
   authorizeRole(['student', 'alumni']),
@@ -26,14 +26,14 @@ router.post('/apply/:jobId',
   applyForJob
 );
 
-// Get my applications
+
 router.get('/my-applications',
   authenticateToken,
   authorizeRole(['student', 'alumni']),
   getMyApplications
 );
 
-// Get applications for job (only job owner)
+
 router.get('/job/:jobId',
   authenticateToken,
   authorizeRole(['company', 'alumni', 'admin']),
@@ -44,7 +44,7 @@ router.get('/job/:jobId',
   getApplicationsForJob
 );
 
-// Update application status
+
 router.put('/:applicationId/status',
   authenticateToken,
   authorizeRole(['company', 'alumni', 'admin']),

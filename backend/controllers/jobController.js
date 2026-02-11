@@ -8,7 +8,7 @@ export const createJob = async (req, res) => {
   try {
     const { title, description, category, location, salary, jobType, experienceLevel, requiredSkills, deadline } = req.body;
 
-    // Get company by user
+    
     let company = await Company.findOne({ where: { userId: req.user.id } });
 
     if (!company && req.user.role === 'alumni') {
@@ -43,7 +43,7 @@ export const createJob = async (req, res) => {
       experienceLevel,
       requiredSkills: requiredSkills || [],
       deadline,
-      approvalStatus: 'pending', // Oglasi čekaju odobrenje administratora
+      approvalStatus: 'pending', 
       isActive: true
     });
 
@@ -75,19 +75,19 @@ export const getAllJobs = async (req, res) => {
       limit = 10 
     } = req.query;
 
-    // Oglasi dostupni javnosti: samo aktivni (bez obzira na approval status za development)
+    
     const where = { 
       isActive: true
-      // Uklonjen approvalStatus filter za development - svi će biti vidljivi
+      
     };
 
-    // Filteri
+    
     if (category) where.category = category;
     if (location) where.location = { [db.Sequelize.Op.iLike]: `%${location}%` };
     if (jobType) where.jobType = jobType;
     if (experienceLevel) where.experienceLevel = experienceLevel;
 
-    // Search filter (pretraga u title i description)
+    
     if (search) {
       where[db.Sequelize.Op.or] = [
         { title: { [db.Sequelize.Op.iLike]: `%${search}%` } },
@@ -95,7 +95,7 @@ export const getAllJobs = async (req, res) => {
       ];
     }
 
-    // Salary range filter
+    
     if (minSalary || maxSalary) {
       where.salary = {};
       if (minSalary) where.salary[db.Sequelize.Op.gte] = parseFloat(minSalary);
@@ -271,17 +271,17 @@ export const deleteJob = async (req, res) => {
     });
   }
 };
-/**
- * Dobavi sve oglase kompanije/alumni-ja koji je ulogovan
- * Samo za company i alumni role
- */
+
+
+
+
 export const getMyJobs = async (req, res) => {
   try {
-    // Pronađi kompaniju za trenutnog korisnika
+    
     let company = await Company.findOne({ where: { userId: req.user.id } });
 
     if (!company) {
-      // Ako je alumni i nema company, pretraga po alumni uslov
+      
       if (req.user.role === 'alumni') {
         const jobs = await Job.findAll({
           include: [{
@@ -300,14 +300,14 @@ export const getMyJobs = async (req, res) => {
         });
       }
 
-      // Ako nema kompanije i nije alumni, nema oglasa
+      
       return res.status(200).json({
         success: true,
         data: []
       });
     }
 
-    // Pronađi sve oglase kompanije
+    
     const jobs = await Job.findAll({
       where: { companyId: company.id },
       include: [{
@@ -336,7 +336,7 @@ export const archiveJob = async (req, res) => {
   try {
     const { jobId } = req.params;
 
-    // Pronađi oglas
+    
     const job = await Job.findByPk(jobId, {
       include: [{ model: Company, as: 'company' }]
     });
@@ -348,7 +348,7 @@ export const archiveJob = async (req, res) => {
       });
     }
 
-    // Provera da li korisnik ima pristup
+    
     if (job.company.userId !== req.user.id) {
       return res.status(403).json({
         success: false,
@@ -356,7 +356,7 @@ export const archiveJob = async (req, res) => {
       });
     }
 
-    // Arhiviraj oglas
+    
     await job.update({ isArchived: true });
 
     return res.status(200).json({

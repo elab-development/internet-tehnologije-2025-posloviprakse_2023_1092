@@ -10,7 +10,7 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 
-// eslint-disable-next-line no-unused-vars
+
 export async function down(queryInterface, Sequelize) {
   await queryInterface.removeColumn('applications', 'cvFilename');
   await queryInterface.removeColumn('applications', 'cvUrl');

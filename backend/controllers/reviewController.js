@@ -27,7 +27,7 @@ export const createReview = async (req, res) => {
       });
     }
 
-    // Check if already reviewed
+    
     const existingReview = await Review.findOne({
       where: { companyId, jobSeekerId: jobSeeker.id }
     });

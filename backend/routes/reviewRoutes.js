@@ -11,7 +11,7 @@ import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// Create review
+
 router.post('/company/:companyId',
   authenticateToken,
   authorizeRole(['job_seeker']),
@@ -24,12 +24,12 @@ router.post('/company/:companyId',
   createReview
 );
 
-// Get company reviews
+
 router.get('/company/:companyId', [
   param('companyId').isUUID().withMessage('Nevažeći ID kompanije')
 ], handleValidationErrors, getCompanyReviews);
 
-// Update review
+
 router.put('/:reviewId',
   authenticateToken,
   authorizeRole(['job_seeker']),
@@ -42,7 +42,7 @@ router.put('/:reviewId',
   updateReview
 );
 
-// Delete review
+
 router.delete('/:reviewId',
   authenticateToken,
   authorizeRole(['job_seeker']),

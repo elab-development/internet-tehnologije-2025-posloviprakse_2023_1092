@@ -218,20 +218,15 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-20">
       <div className="max-w-2xl mx-auto px-6">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-display font-bold text-slate-950 mb-2">Moj Profil</h1>
           <p className="text-slate-600">Pregled i upravljanje tvojim nalogom</p>
         </div>
 
-        {/* Profile Card */}
         <div className="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden mb-6">
-          {/* Header Background */}
           <div className="h-32 bg-gradient-to-r from-emerald-400 to-emerald-500"></div>
 
-          {/* Profile Content */}
           <div className="px-8 pb-8">
-            {/* Avatar & Name */}
             <div className="flex items-end gap-6 -mt-16 mb-8">
               <div className="w-32 h-32 rounded-full bg-slate-200 border-4 border-white flex items-center justify-center text-emerald-400 overflow-hidden">
                 {(isCompany() ? userProfile?.logo : (userProfile?.user?.profilePicture || user?.profilePicture)) ? (
@@ -257,7 +252,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Profile Info */}
             <div className="space-y-4 mb-8">
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
                 <Mail className="text-emerald-500" size={20} />
@@ -293,7 +287,6 @@ export default function ProfilePage() {
               )}
             </div>
 
-            {/* Action Buttons */}
             <div className="flex gap-4 pt-6 border-t border-slate-200">
               <button
                 onClick={openEdit}
@@ -313,7 +306,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Additional Info Card */}
         {(user?.role === 'student' || user?.role === 'alumni') && (
           <div className="bg-white rounded-2xl shadow border border-slate-100 p-8">
             <h3 className="text-xl font-bold text-slate-950 mb-4">Dodatne Informacije</h3>

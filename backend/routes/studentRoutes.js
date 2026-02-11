@@ -15,11 +15,11 @@ import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
 
-/**
- * @route   GET /api/student/profile
- * @desc    Dobijanje sopstvenog profila (student/alumni)
- * @access  Student, Alumni
- */
+
+
+
+
+
 router.get(
   '/profile',
   authenticateToken,
@@ -27,11 +27,11 @@ router.get(
   getMyProfile
 );
 
-/**
- * @route   PUT /api/student/profile
- * @desc    Ažuriranje sopstvenog profila
- * @access  Student, Alumni
- */
+
+
+
+
+
 router.put(
   '/profile',
   authenticateToken,
@@ -46,11 +46,11 @@ router.put(
   updateMyProfile
 );
 
-/**
- * @route   POST /api/student/profile-picture
- * @desc    Upload profilne slike
- * @access  Student, Alumni
- */
+
+
+
+
+
 router.post(
   '/profile-picture',
   authenticateToken,
@@ -60,11 +60,11 @@ router.post(
   uploadProfilePictureController
 );
 
-/**
- * @route   POST /api/student/cv/upload
- * @desc    Upload CV fajla (PDF, DOC, DOCX)
- * @access  Student, Alumni
- */
+
+
+
+
+
 router.post(
   '/cv/upload',
   authenticateToken,
@@ -74,11 +74,11 @@ router.post(
   uploadCVController
 );
 
-/**
- * @route   GET /api/student/cv/download
- * @desc    Download sopstvenog CV-ja
- * @access  Student, Alumni
- */
+
+
+
+
+
 router.get(
   '/cv/download',
   authenticateToken,
@@ -86,11 +86,11 @@ router.get(
   downloadCV
 );
 
-/**
- * @route   DELETE /api/student/cv
- * @desc    Brisanje CV-ja
- * @access  Student, Alumni
- */
+
+
+
+
+
 router.delete(
   '/cv',
   authenticateToken,
@@ -98,11 +98,11 @@ router.delete(
   deleteCV
 );
 
-/**
- * @route   GET /api/student/:jobSeekerId/public
- * @desc    Javni profil studenta/alumni (za kompanije)
- * @access  Public (ali korisno za company)
- */
+
+
+
+
+
 router.get(
   '/:jobSeekerId/public',
   authenticateToken,

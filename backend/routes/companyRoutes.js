@@ -13,22 +13,22 @@ import { handleValidationErrors } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// Get all companies
+
 router.get('/', getAllCompanies);
 
-// Get my company profile
+
 router.get('/profile/me',
   authenticateToken,
   authorizeRole(['company', 'admin']),
   getMyCompanyProfile
 );
 
-// Get company profile
+
 router.get('/:companyId', [
   param('companyId').isUUID().withMessage('Nevažeći ID kompanije')
 ], handleValidationErrors, getCompanyProfile);
 
-// Update company profile (only owner)
+
 router.put('/profile',
   authenticateToken,
   authorizeRole(['company', 'admin']),
@@ -46,7 +46,7 @@ router.put('/profile',
   updateCompanyProfile
 );
 
-// Upload company logo
+
 router.post('/logo',
   authenticateToken,
   authorizeRole(['company', 'admin']),

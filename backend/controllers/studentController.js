@@ -4,16 +4,16 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { deleteFile } from '../middleware/fileUpload.js';
 
-// ES6 module fix za __dirname
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const JobSeeker = db.JobSeeker;
 const User = db.User;
 
-/**
- * Dobijanje profila studenta/alumni-ja (sopstveni profil)
- */
+
+
+
 export const getMyProfile = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -50,9 +50,9 @@ export const getMyProfile = async (req, res) => {
   }
 };
 
-/**
- * Ažuriranje profila studenta/alumni-ja
- */
+
+
+
 export const updateMyProfile = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -68,7 +68,7 @@ export const updateMyProfile = async (req, res) => {
       });
     }
 
-    // Validacija education polja (mora biti niz)
+    
     if (education && !Array.isArray(education)) {
       return res.status(400).json({
         success: false,
@@ -76,7 +76,7 @@ export const updateMyProfile = async (req, res) => {
       });
     }
 
-    // Validacija skills polja (mora biti niz)
+    
     if (skills && !Array.isArray(skills)) {
       return res.status(400).json({
         success: false,
@@ -127,10 +127,10 @@ export const updateMyProfile = async (req, res) => {
   }
 };
 
-/**
- * Upload profilne slike korisnika (student/alumni)
- * Pokušava da učuva sliku na fajl sistem, a ako to ne uspe, čuva kao Base64 u bazi
- */
+
+
+
+
 export const uploadProfilePicture = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -161,22 +161,22 @@ export const uploadProfilePicture = async (req, res) => {
       });
     }
 
-    // Pokušaj da obriš staru sliku ako postoji
+    
     if (user.profilePicture && user.profilePicture.startsWith('/uploads/')) {
       console.log('🗑️ Attempting to delete old profile picture...');
       const oldPath = path.join(__dirname, '..', user.profilePicture);
       deleteFile(oldPath);
     }
 
-    // Provera da li se slika čuva kao put ili kao Base64
+    
     let profilePictureValue;
     
-    // Pokušaj da koristiš fajl sistem put
+    
     if (req.file && req.file.filename) {
       profilePictureValue = `/uploads/profile-pictures/${req.file.filename}`;
       console.log('✅ Using file system path:', profilePictureValue);
     } else if (req.file && req.file.buffer) {
-      // Fallback: koristiš Base64 ako nema filename-a
+      
       const base64 = req.file.buffer.toString('base64');
       profilePictureValue = `data:${req.file.mimetype};base64,${base64}`;
       console.log('📝 Using Base64 encoded image (size:', base64.length, 'chars)');
@@ -212,9 +212,9 @@ export const uploadProfilePicture = async (req, res) => {
   }
 };
 
-/**
- * Upload CV-ja
- */
+
+
+
 export const uploadCV = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -235,13 +235,13 @@ export const uploadCV = async (req, res) => {
       });
     }
 
-    // Brisanje starog CV-ja ako postoji
+    
     if (jobSeeker.cv_url) {
       const oldCvPath = path.join(__dirname, '..', jobSeeker.cv_url);
       deleteFile(oldCvPath);
     }
 
-    // Čuvanje novog CV-ja
+    
     const cv_url = `/uploads/cvs/${req.file.filename}`;
     const cv_filename = req.file.originalname;
     const cv_uploadedAt = new Date();
@@ -250,7 +250,7 @@ export const uploadCV = async (req, res) => {
       cv_url,
       cv_filename,
       cv_uploadedAt,
-      resume: cv_url // Takođe ažuriramo staro 'resume' polje za kompatibilnost
+      resume: cv_url 
     });
 
     return res.status(200).json({
@@ -272,9 +272,9 @@ export const uploadCV = async (req, res) => {
   }
 };
 
-/**
- * Download CV-ja
- */
+
+
+
 export const downloadCV = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -297,7 +297,7 @@ export const downloadCV = async (req, res) => {
       });
     }
 
-    // Postavljanje headera za download
+    
     res.setHeader('Content-Type', 'application/octet-stream');
     res.setHeader('Content-Disposition', `attachment; filename="${jobSeeker.cv_filename}"`);
 
@@ -312,9 +312,9 @@ export const downloadCV = async (req, res) => {
   }
 };
 
-/**
- * Brisanje CV-ja
- */
+
+
+
 export const deleteCV = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -335,11 +335,11 @@ export const deleteCV = async (req, res) => {
       });
     }
 
-    // Brisanje fajla sa servera
+    
     const cvPath = path.join(__dirname, '..', jobSeeker.cv_url);
     deleteFile(cvPath);
 
-    // Brisanje iz baze
+    
     await jobSeeker.update({
       cv_url: null,
       cv_filename: null,
@@ -361,9 +361,9 @@ export const deleteCV = async (req, res) => {
   }
 };
 
-/**
- * Javni profil studenta (za kompanije)
- */
+
+
+
 export const getPublicProfile = async (req, res) => {
   try {
     const { jobSeekerId } = req.params;

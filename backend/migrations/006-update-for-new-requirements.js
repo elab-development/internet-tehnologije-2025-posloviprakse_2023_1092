@@ -1,5 +1,5 @@
 export async function up(queryInterface, Sequelize) {
-  // 1. Update users table - add email verification and password reset fields
+  
   await queryInterface.addColumn('users', 'emailVerified', {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
@@ -21,8 +21,8 @@ export async function up(queryInterface, Sequelize) {
     allowNull: true
   });
 
-  // 2. Update role enum to new values: student, alumni, company, admin
-  // Note: PostgreSQL requires dropping and recreating enum types
+  
+  
   await queryInterface.sequelize.query(`
     ALTER TABLE users ALTER COLUMN role DROP DEFAULT;
     ALTER TABLE users ALTER COLUMN role TYPE VARCHAR(50);
@@ -38,7 +38,7 @@ export async function up(queryInterface, Sequelize) {
     ALTER TABLE users ALTER COLUMN role SET DEFAULT 'student'::"enum_users_role";
   `);
 
-  // 3. Update jobs table - add approval workflow fields
+  
   await queryInterface.addColumn('jobs', 'approvalStatus', {
     type: Sequelize.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
@@ -66,7 +66,7 @@ export async function up(queryInterface, Sequelize) {
     allowNull: true
   });
 
-  // 4. Update job_seekers table - add CV upload and education fields
+  
   await queryInterface.addColumn('job_seekers', 'cv_url', {
     type: Sequelize.STRING,
     allowNull: true
@@ -89,24 +89,24 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function down(queryInterface, Sequelize) {
-  // Reverse changes in opposite order
 
-  // Remove job_seekers columns
+export async function down(queryInterface, Sequelize) {
+  
+
+  
   await queryInterface.removeColumn('job_seekers', 'education');
   await queryInterface.removeColumn('job_seekers', 'cv_uploadedAt');
   await queryInterface.removeColumn('job_seekers', 'cv_filename');
   await queryInterface.removeColumn('job_seekers', 'cv_url');
 
-  // Remove jobs approval workflow columns
+  
   await queryInterface.removeColumn('jobs', 'approvedAt');
   await queryInterface.removeColumn('jobs', 'approvedBy');
   await queryInterface.removeColumn('jobs', 'rejectionReason');
   await queryInterface.removeColumn('jobs', 'approvalStatus');
   await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_jobs_approvalStatus"');
 
-  // Revert users role enum to old values
+  
   await queryInterface.sequelize.query(`
     ALTER TABLE users ALTER COLUMN role DROP DEFAULT;
     ALTER TABLE users ALTER COLUMN role TYPE VARCHAR(50);
@@ -123,7 +123,7 @@ export async function down(queryInterface, Sequelize) {
     ALTER TABLE users ALTER COLUMN role SET DEFAULT 'job_seeker'::"enum_users_role";
   `);
 
-  // Remove users email and password reset columns
+  
   await queryInterface.removeColumn('users', 'passwordResetExpires');
   await queryInterface.removeColumn('users', 'passwordResetToken');
   await queryInterface.removeColumn('users', 'emailVerificationToken');

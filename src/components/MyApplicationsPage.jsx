@@ -97,7 +97,6 @@ export default function MyApplicationsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-20">
       <div className="max-w-4xl mx-auto px-6">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-display font-bold text-slate-950 mb-2">
             Moje Aplikacije

@@ -1,20 +1,6 @@
-/**
- * MASTER DATABASE SCHEMA
- * 
- * Kombinovana šema svih tabela iz migracija
- * Za pregled: sve tabele, kolone i relacije na jednom mestu
- * 
- * Tabele:
- * 1. users - Osnovni korisnici
- * 2. jobSeekers - Profili studenata/alumni
- * 3. companies - Profili kompanija  
- * 4. jobs - Oglasi za posao
- * 5. applications - Primene za posao
- * 6. reviews - Recenzije kompanija
- */
 
 export const DATABASE_SCHEMA = {
-  // ==================== USERS TABLE ====================
+  
   users: {
     id: 'SERIAL PRIMARY KEY',
     firstName: 'VARCHAR(100) NOT NULL',
@@ -29,7 +15,7 @@ export const DATABASE_SCHEMA = {
     updatedAt: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
   },
 
-  // ==================== JOB SEEKERS TABLE ====================
+  
   jobSeekers: {
     id: 'SERIAL PRIMARY KEY',
     userId: 'INTEGER UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE',
@@ -44,7 +30,7 @@ export const DATABASE_SCHEMA = {
     updatedAt: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
   },
 
-  // ==================== COMPANIES TABLE ====================
+  
   companies: {
     id: 'SERIAL PRIMARY KEY',
     userId: 'INTEGER UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE',
@@ -58,7 +44,7 @@ export const DATABASE_SCHEMA = {
     updatedAt: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
   },
 
-  // ==================== JOBS TABLE ====================
+  
   jobs: {
     id: 'SERIAL PRIMARY KEY',
     title: 'VARCHAR(255) NOT NULL',
@@ -76,7 +62,7 @@ export const DATABASE_SCHEMA = {
     updatedAt: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
   },
 
-  // ==================== APPLICATIONS TABLE ====================
+  
   applications: {
     id: 'SERIAL PRIMARY KEY',
     jobId: 'INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE',
@@ -88,7 +74,7 @@ export const DATABASE_SCHEMA = {
     updatedAt: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
   },
 
-  // ==================== REVIEWS TABLE ====================
+  
   reviews: {
     id: 'SERIAL PRIMARY KEY',
     companyId: 'INTEGER NOT NULL REFERENCES companies(id) ON DELETE CASCADE',
@@ -100,7 +86,7 @@ export const DATABASE_SCHEMA = {
   }
 };
 
-// ==================== DATABASE RELATIONSHIPS ====================
+
 export const DATABASE_RELATIONSHIPS = {
   'users -> jobSeekers': 'One-to-One (student profil)',
   'users -> companies': 'One-to-One (company profil)',
@@ -111,7 +97,7 @@ export const DATABASE_RELATIONSHIPS = {
   'jobSeekers -> reviews': 'One-to-Many (napisane recenzije)'
 };
 
-// ==================== CONSTRAINTS ====================
+
 export const DATABASE_CONSTRAINTS = {
   UNIQUE_INDEXES: [
     'users.email',
@@ -132,7 +118,7 @@ export const DATABASE_CONSTRAINTS = {
   ]
 };
 
-// ==================== ENUM VALUES ====================
+
 export const DATABASE_ENUMS = {
   USER_ROLES: ['student', 'alumni', 'company', 'admin'],
   JOB_TYPES: ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship'],

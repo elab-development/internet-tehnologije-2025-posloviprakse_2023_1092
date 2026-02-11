@@ -1,17 +1,17 @@
-/**
- * MASTER MIGRATIONS INDEX
- * 
- * Sveobuhvatan pregled svih migracija
- * Migracije se primenjuju automatski kroz db.sequelize.sync() u server.js
- * 
- * Redosled primene:
- * 1. 001-create-users.js
- * 2. 002-create-job-seekers-and-companies.js
- * 3. 003-create-jobs-applications-reviews.js
- * 4. 004-add-last-login-to-users.js
- * 5. 005-modify-companies-table.js
- * 6. 006-update-for-new-requirements.js
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const MIGRATIONS = {
   '001-create-users.js': {
@@ -119,23 +119,23 @@ export const MIGRATIONS = {
   }
 };
 
-/**
- * KAKO KORISTITI MIGRACIJE
- * 
- * 1. Automatski (preporučeno):
- *    // U server.js - migracije se primenjuju automatski
- *    db.sequelize.sync({ alter: false })
- * 
- * 2. Ručno (ako koristiš Sequelize CLI):
- *    // Sve migracije
- *    npx sequelize-cli db:migrate
- *    
- *    // Nazad (undo)
- *    npx sequelize-cli db:migrate:undo:all
- * 
- * 3. Provera stanja:
- *    // Sinhronizovani su modeli sa bazom tokom startanja server-a
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const MIGRATION_COMMANDS = {
   runAll: 'npx sequelize-cli db:migrate',
@@ -145,20 +145,20 @@ export const MIGRATION_COMMANDS = {
   undoSeed: 'npx sequelize-cli db:seed:undo:all'
 };
 
-/**
- * CURRENT DATABASE STATE (nakon svih migracija)
- * 
- * Tabele:
- *  - users (korisnici - student, alumni, company, admin)
- *  - jobSeekers (profili studenata/alumni)
- *  - companies (profili kompanija)
- *  - jobs (oglasi za posao)
- *  - applications (primene studenata za poslove)
- *  - reviews (recenzije kompanija)
- * 
- * Ukupno polja: 60+
- * Veza (associations): 15+
- * Constraints: 10+
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default MIGRATIONS;

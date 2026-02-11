@@ -10,7 +10,7 @@ const Navbar = () => {
     const [key, setKey] = useState(0);
     const { user, logout, isAuthenticated, isCompany } = useAuth();
 
-    // Re-render kada se user promeni
+    
     useEffect(() => {
         setKey(prev => prev + 1);
     }, [user]);
@@ -38,7 +38,6 @@ const Navbar = () => {
                         <Link to="/blog" className="hover:text-emerald-600 transition-colors">Blog</Link>
                     </nav>
 
-                    {/* Hamburger button - visible only on mobile */}
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         className="md:hidden p-2 rounded-lg hover:bg-slate-200 transition"
@@ -160,7 +159,6 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
                 {mobileMenuOpen && (
                     <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 shadow-lg">
                         <div className="max-w-[1240px] mx-auto px-4 py-6 space-y-3">
