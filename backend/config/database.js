@@ -1,6 +1,19 @@
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+const requiredDbVars = ['DB_USER', 'DB_PASSWORD', 'DB_NAME', 'DB_HOST', 'DB_PORT'];
+const missingDbVars = requiredDbVars.filter((key) => !process.env[key]);
+
+if (!process.env.DATABASE_URL && missingDbVars.length > 0) {
+  throw new Error(
+    `Missing required database environment variables: ${missingDbVars.join(', ')}. ` +
+      'Set DATABASE_URL or provide DB_USER, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT in backend/.env.'
+  );
+}
 
 const useDatabaseUrl = Boolean(process.env.DATABASE_URL);
 const sslOptions = {

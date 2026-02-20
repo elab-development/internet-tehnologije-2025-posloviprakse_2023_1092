@@ -14,12 +14,12 @@ export async function up(sequelize) {
         defaultValue: false,
         allowNull: false
       });
-      console.log('✅ Added isArchived column to jobs table');
+      console.log(' Added isArchived column to jobs table');
     } else {
-      console.log('ℹ️ isArchived column already exists');
+      console.log(' isArchived column already exists');
     }
   } catch (error) {
-    console.error('❌ Error adding isArchived column:', error.message);
+    console.error(' Error adding isArchived column:', error.message);
     throw error;
   }
 }
@@ -29,9 +29,9 @@ export async function down(sequelize) {
   
   try {
     await queryInterface.removeColumn('jobs', 'isArchived');
-    console.log('✅ Removed isArchived column from jobs table');
+    console.log(' Removed isArchived column from jobs table');
   } catch (error) {
-    console.error('❌ Error removing isArchived column:', error.message);
+    console.error(' Error removing isArchived column:', error.message);
     throw error;
   }
 }

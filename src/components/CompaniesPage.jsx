@@ -122,7 +122,7 @@ export default function CompaniesPage() {
 
                       {company.location && (
                         <p className="text-slate-500 text-sm mb-4 flex items-center gap-2">
-                          📍 {company.location}
+                           {company.location}
                         </p>
                       )}
 

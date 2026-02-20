@@ -92,7 +92,7 @@ const CompanySlider = () => {
             
             <div className="flex items-center gap-1 text-slate-700 mb-2">
               <span className="font-extrabold text-2xl">{current.rating}</span>
-              <span className="text-yellow-400 text-xl">★</span>
+              <span className="text-yellow-400 text-xl"></span>
             </div>
             <h2 className="text-3xl font-bold text-slate-800 text-center mb-8">{current.name}</h2>
             
@@ -127,7 +127,7 @@ const CompanySlider = () => {
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {current.benefits.map((b) => (
                   <li key={b} className="flex items-start gap-3 text-slate-600 font-medium">
-                    <span className="text-emerald-500 bg-emerald-50 rounded-full p-1 mt-0.5">✔</span> 
+                    <span className="text-emerald-500 bg-emerald-50 rounded-full p-1 mt-0.5"></span> 
                     <span className="text-sm">{b}</span>
                   </li>
                 ))}

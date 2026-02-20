@@ -132,14 +132,20 @@ export default function MyApplicationsPage() {
                   app.status
                 )}`}
               >
+                {(() => {
+                  const jobData = app.job || app.Job;
+                  const companyData = jobData?.company || jobData?.Company;
+
+                  return (
+                    <>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-grow">
                     <h3 className="text-2xl font-bold text-slate-950">
-                      {app.Job?.title || 'Oglas'}
+                      {jobData?.title || 'Oglas'}
                     </h3>
-                    {app.Job?.Company && (
+                    {companyData && (
                       <p className="text-slate-600 mt-1">
-                        {app.Job.Company.companyName}
+                        {companyData.companyName}
                       </p>
                     )}
                   </div>
@@ -157,33 +163,33 @@ export default function MyApplicationsPage() {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                  {app.Job?.location && (
+                  {jobData?.location && (
                     <div>
                       <p className="text-xs text-slate-500 uppercase tracking-wider">
                         Lokacija
                       </p>
                       <p className="text-slate-700 font-medium">
-                        {app.Job.location}
+                        {jobData.location}
                       </p>
                     </div>
                   )}
-                  {app.Job?.jobType && (
+                  {jobData?.jobType && (
                     <div>
                       <p className="text-xs text-slate-500 uppercase tracking-wider">
                         Tip Posla
                       </p>
                       <p className="text-slate-700 font-medium">
-                        {app.Job.jobType}
+                        {jobData.jobType}
                       </p>
                     </div>
                   )}
-                  {app.Job?.salary && (
+                  {jobData?.salary && (
                     <div>
                       <p className="text-xs text-slate-500 uppercase tracking-wider">
                         Plata
                       </p>
                       <p className="text-slate-700 font-medium">
-                        €{app.Job.salary}
+                        €{jobData.salary}
                       </p>
                     </div>
                   )}
@@ -208,7 +214,8 @@ export default function MyApplicationsPage() {
 
                 <div className="mt-4 pt-4 border-t border-slate-200 flex gap-2">
                   <button
-                    onClick={() => navigate(`/job/${app.Job?.id}`)}
+                    onClick={() => jobData?.id && navigate(`/job/${jobData.id}`)}
+                    disabled={!jobData?.id}
                     className="flex-1 px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-semibold hover:bg-slate-300 transition"
                   >
                     Vidi oglas
@@ -218,10 +225,13 @@ export default function MyApplicationsPage() {
                       disabled
                       className="flex-1 px-4 py-2 rounded-lg bg-emerald-200 text-emerald-900 font-semibold opacity-75"
                     >
-                      Intervju zakazan! 📅
+                      Intervju zakazan! 
                     </button>
                   )}
                 </div>
+                    </>
+                  );
+                })()}
               </div>
             ))}
           </div>

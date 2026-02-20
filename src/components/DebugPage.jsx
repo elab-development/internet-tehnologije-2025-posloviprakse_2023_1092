@@ -61,7 +61,7 @@ export default function DebugPage() {
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-5xl font-display font-bold text-white mb-3">
-            🐛 DEBUG PAGE
+             DEBUG PAGE
           </h1>
           <p className="text-xl text-slate-300">
             Test API endpoints i vidi live response-e
@@ -70,7 +70,7 @@ export default function DebugPage() {
 
         {/* Configuration */}
         <div className="mb-12 bg-slate-800 rounded-2xl p-6 border border-slate-700">
-          <h2 className="text-2xl font-bold text-white mb-6">⚙️ Konfiguracija</h2>
+          <h2 className="text-2xl font-bold text-white mb-6"> Konfiguracija</h2>
           
           <div className="grid md:grid-cols-2 gap-6">
             {/* API URL */}
@@ -98,10 +98,10 @@ export default function DebugPage() {
                 <div className="flex-1 px-4 py-2 bg-slate-700 text-slate-200 rounded font-mono text-xs border border-slate-600">
                   {TOKEN ? (
                     <span className="text-emerald-400">
-                      ✅ {TOKEN.substring(0, 20)}...
+                       {TOKEN.substring(0, 20)}...
                     </span>
                   ) : (
-                    <span className="text-red-400">❌ Nema tokena - Niste login-ovani</span>
+                    <span className="text-red-400"> Nema tokena - Niste login-ovani</span>
                   )}
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function DebugPage() {
                 {localStorage.getItem('user') ? (
                   <pre>{JSON.stringify(JSON.parse(localStorage.getItem('user')), null, 2)}</pre>
                 ) : (
-                  <span className="text-red-400">❌ Nema ulogovanog korisnika</span>
+                  <span className="text-red-400"> Nema ulogovanog korisnika</span>
                 )}
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function DebugPage() {
         </div>
 
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-white mb-6">🔌 Test Endpoints</h2>
+          <h2 className="text-2xl font-bold text-white mb-6"> Test Endpoints</h2>
           
           <div className="grid md:grid-cols-2 gap-4">
             {testEndpoints.map((endpoint) => (
@@ -169,7 +169,7 @@ export default function DebugPage() {
 
         <div className="bg-slate-800 rounded-2xl p-6 border border-slate-700">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">📋 API Log</h2>
+            <h2 className="text-2xl font-bold text-white"> API Log</h2>
             <button
               onClick={() => setApiLogs([])}
               className="text-xs px-4 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition"
@@ -222,7 +222,7 @@ export default function DebugPage() {
         </div>
 
         <div className="mt-12 p-6 bg-slate-800 border border-slate-700 rounded-2xl">
-          <h3 className="text-white font-bold mb-4">🔗 Brzi Linkovi</h3>
+          <h3 className="text-white font-bold mb-4"> Brzi Linkovi</h3>
           <div className="grid md:grid-cols-4 gap-4">
             <a href="/" className="px-4 py-2 bg-slate-700 text-slate-200 rounded text-center text-sm hover:bg-slate-600 transition">
               Home

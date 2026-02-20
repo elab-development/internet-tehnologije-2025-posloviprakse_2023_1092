@@ -71,7 +71,7 @@ const OfferPage = () => {
     const fetchJobs = async () => {
       try {
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-        console.log('🔍 Fetching jobs from:', `${API_URL}/jobs?limit=4`);
+        console.log(' Fetching jobs from:', `${API_URL}/jobs?limit=4`);
         const response = await fetch(`${API_URL}/jobs?limit=4`);
         
         if (!response.ok) {
@@ -79,17 +79,17 @@ const OfferPage = () => {
         }
         
         const data = await response.json();
-        console.log('📦 Jobs data received:', data);
+        console.log(' Jobs data received:', data);
         
         if (data.success && Array.isArray(data.data)) {
           setFeaturedJobs(data.data.slice(0, 4));
-          console.log('✅ Featured jobs set:', data.data.length);
+          console.log(' Featured jobs set:', data.data.length);
         } else {
-          console.warn('⚠️ Unexpected data format:', data);
+          console.warn(' Unexpected data format:', data);
           setFeaturedJobs([]);
         }
       } catch (error) {
-        console.error('❌ Error fetching featured jobs:', error);
+        console.error(' Error fetching featured jobs:', error);
         setFeaturedJobs([]);
       } finally {
         setLoading(false);

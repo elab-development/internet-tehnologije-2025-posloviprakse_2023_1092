@@ -137,7 +137,7 @@ export default function ApplicationsPage() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-8">
           <h1 className="text-4xl font-display font-bold text-slate-950 mb-2">
-            📨 Aplikacije
+             Aplikacije
           </h1>
           <p className="text-slate-600">
             Upravljaj aplikacijama na sve objavljivane oglase
@@ -183,7 +183,7 @@ export default function ApplicationsPage() {
                         {job.title}
                       </p>
                       <p className="text-sm text-slate-600 mt-1">
-                        📍 {job.location}
+                         {job.location}
                       </p>
                       <div className="mt-2 inline-block bg-slate-200 px-2 py-1 rounded text-xs font-semibold text-slate-700">
                         {selectedJob === job.id ? applications.length : '...'} aplikacija
@@ -202,8 +202,8 @@ export default function ApplicationsPage() {
                       {selectedJobData.title}
                     </h2>
                     <div className="flex gap-4 text-slate-600 mb-4">
-                      <span>📍 {selectedJobData.location}</span>
-                      <span>💼 {selectedJobData.jobType}</span>
+                      <span> {selectedJobData.location}</span>
+                      <span> {selectedJobData.jobType}</span>
                       {selectedJobData.salary && <span>€ {selectedJobData.salary}</span>}
                     </div>
                     <button
@@ -247,12 +247,12 @@ export default function ApplicationsPage() {
                                 </p>
                                 {applicant?.phone && (
                                   <p className="text-slate-600 text-sm">
-                                    📱 {applicant.phone}
+                                     {applicant.phone}
                                   </p>
                                 )}
                                 {applicant?.location && (
                                   <p className="text-slate-600 text-sm">
-                                    📍 {applicant.location}
+                                     {applicant.location}
                                   </p>
                                 )}
                               </div>
@@ -294,7 +294,7 @@ export default function ApplicationsPage() {
                                   rel="noreferrer"
                                   className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800"
                                 >
-                                  📄 Preuzmi CV ({cvFilename})
+                                   Preuzmi CV ({cvFilename})
                                 </a>
                               </div>
                             )}

@@ -83,7 +83,7 @@ export default function AuthModal({ isOpen, onClose }) {
         return;
       }
 
-      setSuccess('✅ Registracija uspešna! Prijavljen si kao ' + selectedRole);
+      setSuccess(' Registracija uspešna! Prijavljen si kao ' + selectedRole);
       
     } catch (err) {
       setError('Greška pri konekciji');
@@ -111,7 +111,7 @@ export default function AuthModal({ isOpen, onClose }) {
         return;
       }
       
-      setSuccess('✅ Uspešna prijava!');
+      setSuccess(' Uspešna prijava!');
       
     } catch (err) {
       setError('Greška pri konekciji');

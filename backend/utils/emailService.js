@@ -79,7 +79,7 @@ export const sendVerificationEmail = async (email, token, firstName) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>🎉 Dobrodošli na Jobzee!</h1>
+              <h1> Dobrodošli na Jobzee!</h1>
             </div>
             <div class="content">
               <p>Pozdrav <strong>${firstName}</strong>,</p>
@@ -117,7 +117,7 @@ export const sendVerificationEmail = async (email, token, firstName) => {
     const info = await transporter.sendMail(mailOptions);
     
     if (process.env.NODE_ENV !== 'production') {
-      console.log('📧 Email sent (development mode):');
+      console.log(' Email sent (development mode):');
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
       console.log('Verification URL: %s', verificationUrl);
     }
@@ -162,7 +162,7 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>🔐 Resetovanje Lozinke</h1>
+              <h1> Resetovanje Lozinke</h1>
             </div>
             <div class="content">
               <p>Pozdrav <strong>${firstName}</strong>,</p>
@@ -174,7 +174,7 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
               <p>Ili kopirajte i nalepite sledeći link u vaš browser:</p>
               <p style="word-break: break-all; color: #f5576c;">${resetUrl}</p>
               <div class="warning">
-                <strong>⚠️ Važno:</strong>
+                <strong> Važno:</strong>
                 <ul>
                   <li>Ovaj link ističe za 1 sat</li>
                   <li>Ako niste zahtevali reset lozinke, ignorišite ovaj email</li>
@@ -207,7 +207,7 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
     const info = await transporter.sendMail(mailOptions);
     
     if (process.env.NODE_ENV !== 'production') {
-      console.log('📧 Password reset email sent (development mode):');
+      console.log(' Password reset email sent (development mode):');
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
       console.log('Reset URL: %s', resetUrl);
     }
@@ -236,7 +236,7 @@ export const sendPasswordChangeConfirmation = async (email, firstName) => {
       <!DOCTYPE html>
       <html>
         <body style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>✅ Lozinka je uspešno promenjena</h2>
+          <h2> Lozinka je uspešno promenjena</h2>
           <p>Pozdrav ${firstName},</p>
           <p>Ovo je potvrda da je vaša lozinka na Jobzee platformi uspešno promenjena.</p>
           <p>Ako niste vi izvršili ovu promenu, molimo vas da odmah kontaktirate našu podršku.</p>

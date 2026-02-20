@@ -135,17 +135,17 @@ export const uploadProfilePicture = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    console.log('📸 Profile picture upload started for user:', userId);
+    console.log(' Profile picture upload started for user:', userId);
 
     if (!req.file) {
-      console.log('❌ No file provided');
+      console.log(' No file provided');
       return res.status(400).json({
         success: false,
         message: 'Niste priložili sliku.'
       });
     }
 
-    console.log('📦 File received:', {
+    console.log(' File received:', {
       filename: req.file.filename,
       size: req.file.size,
       mimetype: req.file.mimetype
@@ -154,7 +154,7 @@ export const uploadProfilePicture = async (req, res) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-      console.log('❌ User not found:', userId);
+      console.log(' User not found:', userId);
       return res.status(404).json({
         success: false,
         message: 'Profil nije pronađen.'
@@ -163,7 +163,7 @@ export const uploadProfilePicture = async (req, res) => {
 
     
     if (user.profilePicture && user.profilePicture.startsWith('/uploads/')) {
-      console.log('🗑️ Attempting to delete old profile picture...');
+      console.log(' Attempting to delete old profile picture...');
       const oldPath = path.join(__dirname, '..', user.profilePicture);
       deleteFile(oldPath);
     }
@@ -174,24 +174,24 @@ export const uploadProfilePicture = async (req, res) => {
     
     if (req.file && req.file.filename) {
       profilePictureValue = `/uploads/profile-pictures/${req.file.filename}`;
-      console.log('✅ Using file system path:', profilePictureValue);
+      console.log(' Using file system path:', profilePictureValue);
     } else if (req.file && req.file.buffer) {
       
       const base64 = req.file.buffer.toString('base64');
       profilePictureValue = `data:${req.file.mimetype};base64,${base64}`;
-      console.log('📝 Using Base64 encoded image (size:', base64.length, 'chars)');
+      console.log(' Using Base64 encoded image (size:', base64.length, 'chars)');
     } else {
-      console.log('❌ Invalid file object');
+      console.log(' Invalid file object');
       return res.status(400).json({
         success: false,
         message: 'Greška pri procesiranju slike.'
       });
     }
 
-    console.log('💾 Updating user profile in database...');
+    console.log(' Updating user profile in database...');
     await user.update({ profilePicture: profilePictureValue });
 
-    console.log('✅ Profile picture upload successful for user:', userId);
+    console.log(' Profile picture upload successful for user:', userId);
 
     return res.status(200).json({
       success: true,
@@ -199,7 +199,7 @@ export const uploadProfilePicture = async (req, res) => {
       data: { profilePicture: profilePictureValue }
     });
   } catch (error) {
-    console.error('❌ Upload profile picture error:');
+    console.error(' Upload profile picture error:');
     console.error('Error name:', error.name);
     console.error('Error message:', error.message);
     console.error('Error stack:', error.stack);

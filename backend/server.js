@@ -1,18 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 
-console.log('🔍 DEBUG STARTUP');
+console.log(' DEBUG STARTUP');
 console.log('NODE_ENV:', `"${process.env.NODE_ENV}"`);
-console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET ✓' : 'MISSING ❌');
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET ✓' : 'MISSING ');
 if (process.env.DATABASE_URL) {
   const masked = process.env.DATABASE_URL.replace(/:[^:]*@/, ':***@');
   console.log('DB URL:', masked);
 }
-console.log('🔍 END DEBUG\n');
+console.log(' END DEBUG\n');
 
 import db from './models/index.js';
 import { seedDatabase } from './migrations/seed.js';
@@ -111,22 +114,22 @@ const initDatabase = async () => {
     
     const dbUrl = process.env.DATABASE_URL || 'Not set';
     const maskedUrl = dbUrl.replace(/:[^:]*@/, ':***@');
-    console.log('🔍 Pokušaj konekcije na:', maskedUrl);
+    console.log(' Pokušaj konekcije na:', maskedUrl);
     
-    console.log('🔐 Authenticating database...');
+    console.log(' Authenticating database...');
     await db.sequelize.authenticate();
-    console.log('✅ Database authenticated successfully!');
+    console.log(' Database authenticated successfully!');
     
-    console.log('🔄 Syncing database schema...');
+    console.log(' Syncing database schema...');
     await db.sequelize.sync({ alter: true });
-    console.log('✅ Baza je sinhronizovana!');
+    console.log(' Baza je sinhronizovana!');
 
     
-    console.log('🌱 Seeding database with test data...');
+    console.log(' Seeding database with test data...');
     await seedDatabase();
-    console.log('✅ Database seeded successfully!');
+    console.log(' Database seeded successfully!');
   } catch (error) {
-    console.error('❌ Greška pri konekciji na bazu:');
+    console.error(' Greška pri konekciji na bazu:');
     console.error('Error name:', error.name);
     console.error('Error message:', error.message);
     if (error.sql) console.error('SQL:', error.sql);

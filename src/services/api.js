@@ -2,7 +2,7 @@
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-console.log('🌐 API URL:', API_URL);
+console.log(' API URL:', API_URL);
 
 
 const getToken = () => {
@@ -41,14 +41,14 @@ const handleResponse = async (response) => {
     const data = await response.json();
     
     if (!response.ok) {
-      console.error('❌ API Error:', data);
+      console.error(' API Error:', data);
       throw new Error(data.message || `Greška: ${response.status}`);
     }
     
-    console.log('✅ API Response OK:', data);
+    console.log(' API Response OK:', data);
     return data;
   } catch (error) {
-    console.error('❌ Response parsing error:', error);
+    console.error(' Response parsing error:', error);
     throw error;
   }
 };
@@ -57,34 +57,34 @@ const handleResponse = async (response) => {
 export const authAPI = {
   
   register: async (userData) => {
-    console.log('📝 Starting registration request...');
+    console.log(' Starting registration request...');
     try {
       const response = await fetchWithTimeout(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify(userData),
       }, 30000);
-      console.log('✅ Registration response received');
+      console.log(' Registration response received');
       return handleResponse(response);
     } catch (error) {
-      console.error('❌ Registration error:', error);
+      console.error(' Registration error:', error);
       throw error;
     }
   },
 
   
   login: async (credentials) => {
-    console.log('🔐 Starting login request...');
+    console.log(' Starting login request...');
     try {
       const response = await fetchWithTimeout(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify(credentials),
       }, 30000);
-      console.log('✅ Login response received');
+      console.log(' Login response received');
       return handleResponse(response);
     } catch (error) {
-      console.error('❌ Login error:', error);
+      console.error(' Login error:', error);
       throw error;
     }
   },

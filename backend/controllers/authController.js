@@ -16,12 +16,12 @@ const User = db.User;
 
 export const register = async (req, res) => {
   try {
-    console.log('📝 Starting registration process...');
+    console.log(' Starting registration process...');
     const { firstName, lastName, email, password, role } = req.body;
 
-    console.log('✅ Step 1: Validating input...');
+    console.log(' Step 1: Validating input...');
     if (!firstName || !lastName || !email || !password) {
-      console.log('❌ Missing required fields');
+      console.log(' Missing required fields');
       return res.status(400).json({
         success: false,
         message: 'Sva polja su obavezna'
@@ -31,32 +31,32 @@ export const register = async (req, res) => {
     
     const allowedRoles = ['student', 'alumni', 'company', 'admin'];
     if (role && !allowedRoles.includes(role)) {
-      console.log('❌ Invalid role:', role);
+      console.log(' Invalid role:', role);
       return res.status(400).json({
         success: false,
         message: `Nevažeća uloga. Dozvoljene uloge: ${allowedRoles.join(', ')}`
       });
     }
 
-    console.log('✅ Step 2: Checking if user exists...');
+    console.log(' Step 2: Checking if user exists...');
     
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      console.log('❌ User already exists:', email);
+      console.log(' User already exists:', email);
       return res.status(400).json({
         success: false,
         message: 'Korisnik sa ovom email adresom već postoji.'
       });
     }
 
-    console.log('✅ Step 3: Hashing password...');
+    console.log(' Step 3: Hashing password...');
     
     const hashedPassword = hashPassword(password);
 
     
     const emailVerificationToken = generateEmailToken();
 
-    console.log('✅ Step 4: Creating user in database...');
+    console.log(' Step 4: Creating user in database...');
     
     const newUser = await User.create({
       firstName,
@@ -67,9 +67,9 @@ export const register = async (req, res) => {
       emailVerificationToken,
       emailVerified: false
     });
-    console.log('✅ User created with ID:', newUser.id);
+    console.log(' User created with ID:', newUser.id);
 
-    console.log('✅ Step 5: Creating role-specific profile...');
+    console.log(' Step 5: Creating role-specific profile...');
     
     if (newUser.role === 'student' || newUser.role === 'alumni') {
       await db.JobSeeker.create({ 
@@ -79,7 +79,7 @@ export const register = async (req, res) => {
         location: null,
         education: []
       });
-      console.log('✅ JobSeeker profile created');
+      console.log(' JobSeeker profile created');
     } else if (newUser.role === 'company') {
       await db.Company.create({
         userId: newUser.id,
@@ -88,10 +88,10 @@ export const register = async (req, res) => {
         industry: null,
         location: null
       });
-      console.log('✅ Company profile created');
+      console.log(' Company profile created');
     }
 
-    console.log('✅ Step 6: Generating JWT token...');
+    console.log(' Step 6: Generating JWT token...');
     
     const token = generateToken(newUser.id, newUser.email, newUser.role);
 
@@ -99,13 +99,13 @@ export const register = async (req, res) => {
     
     if (process.env.NODE_ENV === 'production') {
       sendVerificationEmail(email, emailVerificationToken, firstName).catch((err) => {
-        console.error('⚠️ Email sending failed (non-blocking):', err.message);
+        console.error(' Email sending failed (non-blocking):', err.message);
       });
     } else {
-      console.log('ℹ️ Email verification skipped in development mode');
+      console.log(' Email verification skipped in development mode');
     }
 
-    console.log('✅ Registration completed successfully!');
+    console.log(' Registration completed successfully!');
     return res.status(201).json({
       success: true,
       message: 'Registracija uspešna! Dobrodošli na Jobzee!',
@@ -120,7 +120,7 @@ export const register = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('❌ Registration error:', error);
+    console.error(' Registration error:', error);
     console.error('Error stack:', error.stack);
     return res.status(500).json({
       success: false,
@@ -138,46 +138,46 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log('🔐 Login attempt for email:', email);
+    console.log(' Login attempt for email:', email);
 
     
-    console.log('📧 Finding user...');
+    console.log(' Finding user...');
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      console.log('❌ User not found:', email);
+      console.log(' User not found:', email);
       return res.status(400).json({
         success: false,
         message: 'Nevažeća email adresa ili lozinka.'
       });
     }
 
-    console.log('✅ User found:', user.id);
+    console.log(' User found:', user.id);
 
     
-    console.log('🔑 Comparing passwords...');
+    console.log(' Comparing passwords...');
     const isPasswordValid = comparePassword(password, user.password);
 
     if (!isPasswordValid) {
-      console.log('❌ Invalid password');
+      console.log(' Invalid password');
       return res.status(400).json({
         success: false,
         message: 'Nevažeća email adresa ili lozinka.'
       });
     }
 
-    console.log('✅ Password valid');
+    console.log(' Password valid');
 
     
     if (!user.isActive) {
-      console.log('❌ Account inactive');
+      console.log(' Account inactive');
       return res.status(403).json({
         success: false,
         message: 'Vaš nalog je deaktiviran. Kontaktirajte administratora.'
       });
     }
 
-    console.log('✅ Account is active');
+    console.log(' Account is active');
 
     
     const emailWarning = !user.emailVerified 
@@ -185,14 +185,14 @@ export const login = async (req, res) => {
       : null;
 
     
-    console.log('⏰ Updating lastLogin...');
+    console.log(' Updating lastLogin...');
     await user.update({ lastLogin: new Date() });
 
     
-    console.log('🎫 Generating JWT token...');
+    console.log(' Generating JWT token...');
     const token = generateToken(user.id, user.email, user.role);
 
-    console.log('✅ Login successful for:', email);
+    console.log(' Login successful for:', email);
 
     return res.status(200).json({
       success: true,
@@ -210,7 +210,7 @@ export const login = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('❌ Login error - DETAILED:');
+    console.error(' Login error - DETAILED:');
     console.error('Error name:', error.name);
     console.error('Error message:', error.message);
     console.error('Error stack:', error.stack);

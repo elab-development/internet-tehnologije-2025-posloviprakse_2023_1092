@@ -73,7 +73,7 @@ export default function CreateJobPage() {
 
       await jobsAPI.create(payload);
 
-      setSuccess('✅ Oglas je uspešno kreiran! Preusmeravamo...');
+      setSuccess(' Oglas je uspešno kreiran! Preusmeravamo...');
       setTimeout(() => {
         navigate('/jobs');
       }, 2000);
@@ -285,21 +285,21 @@ npr. React, Node.js, PostgreSQL, Git, Docker, AWS"
                     disabled={loading}
                     className="flex-1 px-6 py-3 rounded-full bg-emerald-400 text-slate-900 font-bold hover:bg-emerald-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? '⏳ Učitavanje...' : '✅ Postavi Oglas'}
+                    {loading ? ' Učitavanje...' : ' Postavi Oglas'}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowPreview(!showPreview)}
                     className="px-6 py-3 rounded-full border border-white/20 text-white font-semibold hover:border-white/60 hover:bg-white/5 transition"
                   >
-                    👁️ Pregled
+                     Pregled
                   </button>
                 </div>
               </form>
 
               <div className="mt-6 p-4 bg-emerald-500/10 border-l-4 border-emerald-400 rounded-lg">
                 <p className="text-sm text-slate-300">
-                  <span className="font-semibold text-emerald-300">💡 Savjet:</span> Napiši detaljno i jasno kako biste privukli prave kandidate. Oglas će biti moderiran prije nego što bude javno vidljiv.
+                  <span className="font-semibold text-emerald-300"> Savjet:</span> Napiši detaljno i jasno kako biste privukli prave kandidate. Oglas će biti moderiran prije nego što bude javno vidljiv.
                 </p>
               </div>
             </div>
@@ -307,7 +307,7 @@ npr. React, Node.js, PostgreSQL, Git, Docker, AWS"
 
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-slate-900/60 rounded-3xl border border-white/10 p-6 backdrop-blur-sm">
-              <h3 className="text-lg font-bold text-white mb-4">📋 Pregled</h3>
+              <h3 className="text-lg font-bold text-white mb-4"> Pregled</h3>
               
               <div className="space-y-4 text-sm">
                 <div>

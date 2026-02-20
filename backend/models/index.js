@@ -14,7 +14,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = process.env.NODE_ENV || 'development';
 const config = databaseConfig[env];
 
-console.log(`🔍 Loading Sequelize config for: ${env}`);
+console.log(` Loading Sequelize config for: ${env}`);
 
 let sequelize;
 if (config.use_env_variable) {
@@ -22,25 +22,25 @@ if (config.use_env_variable) {
   const dbUrl = process.env[config.use_env_variable];
   
   if (!dbUrl) {
-    console.error(`❌ ERROR: ${config.use_env_variable} is not set!`);
+    console.error(` ERROR: ${config.use_env_variable} is not set!`);
     console.error('Available env vars:', Object.keys(process.env).filter(k => k.includes('DB') || k.includes('DATABASE')));
     throw new Error(`Missing required environment variable: ${config.use_env_variable}`);
   }
   
   const maskedUrl = dbUrl.replace(/:[^:]*@/, ':***@');
-  console.log('🔗 Using DATABASE_URL:', maskedUrl);
-  console.log('🔐 Applying SSL config: require=true, rejectUnauthorized=false');
+  console.log(' Using DATABASE_URL:', maskedUrl);
+  console.log(' Applying SSL config: require=true, rejectUnauthorized=false');
   
   try {
     sequelize = new Sequelize(dbUrl, config);
-    console.log('✅ Sequelize instance created successfully');
+    console.log(' Sequelize instance created successfully');
   } catch (initError) {
-    console.error('❌ Failed to create Sequelize instance:', initError.message);
+    console.error(' Failed to create Sequelize instance:', initError.message);
     throw initError;
   }
 } else {
   
-  console.log(`🔗 Using DB params: ${config.host}:${config.port}/${config.database}`);
+  console.log(` Using DB params: ${config.host}:${config.port}/${config.database}`);
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 

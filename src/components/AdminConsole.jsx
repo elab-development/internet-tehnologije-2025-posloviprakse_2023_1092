@@ -32,7 +32,7 @@ export default function AdminConsole() {
       const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const healthCheckUrl = apiBaseUrl.replace('/api', '') + '/api/health';
       
-      console.log('🔍 Health check URL:', healthCheckUrl);
+      console.log(' Health check URL:', healthCheckUrl);
       
       
       const healthCheck = await fetch(healthCheckUrl).catch((err) => {
@@ -40,18 +40,18 @@ export default function AdminConsole() {
         return null;
       });
       
-      console.log('📊 Health check response:', healthCheck?.status, healthCheck?.statusText);
+      console.log(' Health check response:', healthCheck?.status, healthCheck?.statusText);
       
       if (healthCheck?.ok) {
         const healthData = await healthCheck.json();
         
-        console.log('✅ Health data:', healthData);
+        console.log(' Health data:', healthData);
         
         setConnections(prev => ({
           ...prev,
-          backend: 'CONNECTED ✅',
-          database: healthData.database === 'CONNECTED' ? 'CONNECTED ✅' : 'DISCONNECTED ❌',
-          api: 'CONNECTED ✅'
+          backend: 'CONNECTED ',
+          database: healthData.database === 'CONNECTED' ? 'CONNECTED ' : 'DISCONNECTED ',
+          api: 'CONNECTED '
         }));
         
         
@@ -121,7 +121,7 @@ export default function AdminConsole() {
       alert(` Korisnik ${userName} je brisan`);
     } catch (err) {
       console.error('Error deleting user:', err);
-      alert(`❌ Greška pri brisanju korisnika: ${err.response?.data?.message || err.message}`);
+      alert(` Greška pri brisanju korisnika: ${err.response?.data?.message || err.message}`);
     } finally {
       setDeleting(false);
     }
@@ -136,7 +136,7 @@ export default function AdminConsole() {
       alert(` Oglas "${jobTitle}" je brisan`);
     } catch (err) {
       console.error('Error deleting job:', err);
-      alert(`❌ Greška pri brisanju oglasa: ${err.response?.data?.message || err.message}`);
+      alert(` Greška pri brisanju oglasa: ${err.response?.data?.message || err.message}`);
     } finally {
       setDeleting(false);
     }
@@ -152,7 +152,7 @@ export default function AdminConsole() {
             </div>
           </div>
           <h1 className="text-5xl font-display font-bold text-white mb-3">
-            🛠️ Admin Console
+             Admin Console
           </h1>
           <p className="text-xl text-slate-300">
             Pregled sistema, baze podataka i konfiguracije
@@ -178,7 +178,7 @@ export default function AdminConsole() {
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
-            🔌 Status Konekcije
+             Status Konekcije
           </button>
           <button
             onClick={() => setActiveTab('users')}
@@ -188,7 +188,7 @@ export default function AdminConsole() {
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
-            👥 Korisnici ({users.length})
+             Korisnici ({users.length})
           </button>
           <button
             onClick={() => setActiveTab('jobs')}
@@ -198,7 +198,7 @@ export default function AdminConsole() {
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
-            💼 Oglasi ({jobs.length})
+             Oglasi ({jobs.length})
           </button>
           <button
             onClick={() => setActiveTab('config')}
@@ -208,7 +208,7 @@ export default function AdminConsole() {
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
-            ⚙️ Konfiguracija
+             Konfiguracija
           </button>
         </div>
 
@@ -217,7 +217,7 @@ export default function AdminConsole() {
             <ConnectionCard
               name="PostgreSQL Baza"
               status={connections.database}
-              icon="🗄️"
+              icon=""
               details={{
                 Host: 'localhost',
                 Port: '5432',
@@ -228,7 +228,7 @@ export default function AdminConsole() {
             <ConnectionCard
               name="Backend API"
               status={connections.backend}
-              icon="🚀"
+              icon=""
               details={{
                 URL: 'http://localhost:5000',
                 Status: connections.backend,
@@ -238,7 +238,7 @@ export default function AdminConsole() {
             <ConnectionCard
               name="Frontend API"
               status={connections.api}
-              icon="🌐"
+              icon=""
               details={{
                 URL: import.meta.env.VITE_API_URL,
                 Status: connections.api,
@@ -374,18 +374,18 @@ export default function AdminConsole() {
             <ConfigCard title="Browser Storage">
               <ConfigItem 
                 label="Token" 
-                value={localStorage.getItem('token') ? '✅ SAČUVAN' : '❌ NEMA'} 
+                value={localStorage.getItem('token') ? ' SAČUVAN' : ' NEMA'} 
               />
               <ConfigItem 
                 label="User" 
-                value={localStorage.getItem('user') ? '✅ SAČUVAN' : '❌ NEMA'} 
+                value={localStorage.getItem('user') ? ' SAČUVAN' : ' NEMA'} 
               />
             </ConfigCard>
 
             <ConfigCard title="Trenutni Korisnik">
               <ConfigItem 
                 label="Status" 
-                value={user ? '✅ ULOGOVAN' : '❌ ODJAVLJN'} 
+                value={user ? ' ULOGOVAN' : ' ODJAVLJN'} 
               />
               {user && (
                 <>
@@ -462,7 +462,7 @@ export default function AdminConsole() {
 }
 
 function ConnectionCard({ name, status, icon, details }) {
-  const isConnected = status.includes('✅');
+  const isConnected = status.includes('');
   return (
     <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">

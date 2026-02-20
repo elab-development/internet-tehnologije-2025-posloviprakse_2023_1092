@@ -53,7 +53,7 @@ const Footer = () => {
       </div>
 
       <div className="mt-14 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
-        <p>© {new Date().getFullYear()} Jobzee. Sva prava zadržana.</p>
+        <p> {new Date().getFullYear()} Jobzee. Sva prava zadržana.</p>
       </div>
     </footer>
   );

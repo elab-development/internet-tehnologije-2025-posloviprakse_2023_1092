@@ -30,16 +30,16 @@ export default function JobListPage() {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      console.log('🔍 Počinjem učitavanje poslova...');
-      console.log('📍 API URL:', import.meta.env.VITE_API_URL);
+      console.log(' Počinjem učitavanje poslova...');
+      console.log(' API URL:', import.meta.env.VITE_API_URL);
       
       const data = await jobsAPI.getAll(filters);
-      console.log('✅ Podaci primljeni:', data);
+      console.log(' Podaci primljeni:', data);
       
       setJobs(data.data || data);
       setError('');
     } catch (err) {
-      console.error('❌ Greška pri učitavanju:', err);
+      console.error(' Greška pri učitavanju:', err);
       setError('Nije moguće učitati oglase. Pokušaj ponovo.');
     } finally {
       setLoading(false);

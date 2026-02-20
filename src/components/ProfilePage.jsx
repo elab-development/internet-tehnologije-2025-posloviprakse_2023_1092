@@ -244,10 +244,10 @@ export default function ProfilePage() {
                   {displayUser?.firstName} {displayUser?.lastName}
                 </h2>
                 <p className="text-emerald-600 font-semibold capitalize text-lg">
-                  {displayUser?.role === 'student' && '👨‍🎓 Student'}
-                  {displayUser?.role === 'alumni' && '🎓 Alumni'}
-                  {displayUser?.role === 'company' && '🏢 Kompanija'}
-                  {displayUser?.role === 'admin' && '⚙️ Administrator'}
+                  {displayUser?.role === 'student' && '‍ Student'}
+                  {displayUser?.role === 'alumni' && ' Alumni'}
+                  {displayUser?.role === 'company' && ' Kompanija'}
+                  {displayUser?.role === 'admin' && ' Administrator'}
                 </p>
               </div>
             </div>
