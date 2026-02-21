@@ -21,6 +21,17 @@ docker compose up --build
 
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:5000
+- Swagger API dokumentacija: http://localhost:5000/api-docs
+
+## API specifikacija (Swagger)
+
+Swagger dokumentacija je dostupna na ruti:
+
+- `http://localhost:5000/api-docs`
+
+OpenAPI specifikacija se nalazi u fajlu:
+
+- `backend/docs/openapi.yaml`
 
 ### Gašenje
 
