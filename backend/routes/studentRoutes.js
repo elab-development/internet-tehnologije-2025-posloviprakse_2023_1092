@@ -37,6 +37,9 @@ router.put(
   authenticateToken,
   authorizeRole(['student', 'alumni']),
   [
+    body('email').optional({ checkFalsy: true }).isEmail().withMessage('Nevažeća email adresa'),
+    body('currentPassword').optional({ checkFalsy: true }).isString().withMessage('Trenutna lozinka nije validna'),
+    body('newPassword').optional({ checkFalsy: true }).isLength({ min: 6 }).withMessage('Nova lozinka mora imati najmanje 6 karaktera'),
     body('phone').optional({ checkFalsy: true }).isMobilePhone('any').withMessage('Nevažeći broj telefona'),
     body('skills').optional({ checkFalsy: true }).isArray().withMessage('Skills mora biti niz'),
     body('education').optional({ checkFalsy: true }).isArray().withMessage('Education mora biti niz'),

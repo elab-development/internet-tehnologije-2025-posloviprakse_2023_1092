@@ -14,6 +14,10 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    email: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmNewPassword: '',
     bio: '',
     phone: '',
     location: '',
@@ -77,6 +81,10 @@ export default function ProfilePage() {
       setFormData({
         firstName: jobSeekerUser?.firstName || '',
         lastName: jobSeekerUser?.lastName || '',
+        email: jobSeekerUser?.email || '',
+        currentPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
         bio: userProfile?.bio || '',
         phone: userProfile?.phone || '',
         location: userProfile?.location || '',
@@ -94,6 +102,10 @@ export default function ProfilePage() {
       setFormData({
         firstName: user?.firstName || '',
         lastName: user?.lastName || '',
+        email: user?.email || '',
+        currentPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
         bio: '',
         phone: '',
         location: '',
@@ -111,6 +123,10 @@ export default function ProfilePage() {
       setFormData({
         firstName: user?.firstName || '',
         lastName: user?.lastName || '',
+        email: user?.email || '',
+        currentPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
         bio: '',
         phone: '',
         location: '',
@@ -148,10 +164,25 @@ export default function ProfilePage() {
     setError('');
 
     try {
+      const hasPasswordChange = Boolean(formData.currentPassword || formData.newPassword || formData.confirmNewPassword);
+
+      if (hasPasswordChange) {
+        if (!formData.currentPassword || !formData.newPassword || !formData.confirmNewPassword) {
+          throw new Error('Za promenu lozinke popuni sva polja za lozinku.');
+        }
+        if (formData.newPassword !== formData.confirmNewPassword) {
+          throw new Error('Nova lozinka i potvrda lozinke se ne poklapaju.');
+        }
+        if (formData.newPassword.length < 6) {
+          throw new Error('Nova lozinka mora imati najmanje 6 karaktera.');
+        }
+      }
+
       if (isStudent()) {
         const payload = {
           firstName: normalizeText(formData.firstName),
           lastName: normalizeText(formData.lastName),
+          email: normalizeText(formData.email),
           bio: normalizeText(formData.bio),
           phone: normalizeText(formData.phone),
           location: normalizeText(formData.location),
@@ -161,7 +192,9 @@ export default function ProfilePage() {
           experience: formData.experience === '' ? undefined : Number(formData.experience),
           education: normalizeText(formData.education)
             ? formData.education.split('\n').map(s => s.trim()).filter(Boolean)
-            : undefined
+            : undefined,
+          currentPassword: hasPasswordChange ? formData.currentPassword : undefined,
+          newPassword: hasPasswordChange ? formData.newPassword : undefined
         };
 
         const response = await studentAPI.updateProfile(payload);
@@ -177,12 +210,15 @@ export default function ProfilePage() {
         const payload = {
           firstName: normalizeText(formData.firstName),
           lastName: normalizeText(formData.lastName),
+          email: normalizeText(formData.email),
           companyName: normalizeText(formData.companyName),
           description: normalizeText(formData.description),
           website: normalizeText(formData.website),
           industry: normalizeText(formData.industry),
           location: normalizeText(formData.companyLocation),
-          employees: formData.employees === '' ? undefined : Number(formData.employees)
+          employees: formData.employees === '' ? undefined : Number(formData.employees),
+          currentPassword: hasPasswordChange ? formData.currentPassword : undefined,
+          newPassword: hasPasswordChange ? formData.newPassword : undefined
         };
 
         const response = await companiesAPI.updateProfile(payload);
@@ -366,6 +402,53 @@ export default function ProfilePage() {
                     onChange={handleInputChange}
                     className="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg"
                   />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-slate-700">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg"
+                />
+              </div>
+
+              <div className="rounded-xl border border-slate-200 p-4 space-y-4">
+                <h3 className="text-sm font-semibold text-slate-800">Promena lozinke (opciono)</h3>
+                <div>
+                  <label className="text-sm font-semibold text-slate-700">Trenutna lozinka</label>
+                  <input
+                    type="password"
+                    name="currentPassword"
+                    value={formData.currentPassword}
+                    onChange={handleInputChange}
+                    className="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg"
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-semibold text-slate-700">Nova lozinka</label>
+                    <input
+                      type="password"
+                      name="newPassword"
+                      value={formData.newPassword}
+                      onChange={handleInputChange}
+                      className="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-slate-700">Potvrdi novu lozinku</label>
+                    <input
+                      type="password"
+                      name="confirmNewPassword"
+                      value={formData.confirmNewPassword}
+                      onChange={handleInputChange}
+                      className="w-full mt-1 px-4 py-2 border border-slate-300 rounded-lg"
+                    />
+                  </div>
                 </div>
               </div>
 

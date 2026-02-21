@@ -47,8 +47,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
-
-app.use('/uploads', express.static('uploads'));
+const uploadsPath = path.resolve(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsPath));
 
 
 app.use('/api/auth', authRoutes);
@@ -125,9 +125,9 @@ const initDatabase = async () => {
     console.log(' Baza je sinhronizovana!');
 
     
-    console.log(' Seeding database with test data...');
+    console.log(' Ubacujem testne podatke u bazu...');
     await seedDatabase();
-    console.log(' Database seeded successfully!');
+    console.log(' Testni podaci su uspešno ubačeni.');
   } catch (error) {
     console.error(' Greška pri konekciji na bazu:');
     console.error('Error name:', error.name);

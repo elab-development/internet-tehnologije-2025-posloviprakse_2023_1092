@@ -2,6 +2,7 @@ import db from '../models/index.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { deleteFile } from '../middleware/fileUpload.js';
+import { comparePassword, hashPassword } from '../utils/password.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -110,7 +111,10 @@ export const updateCompanyProfile = async (req, res) => {
       employees,
       logo,
       firstName,
-      lastName
+      lastName,
+      email,
+      currentPassword,
+      newPassword
     } = req.body;
 
     await company.update({
@@ -128,6 +132,51 @@ export const updateCompanyProfile = async (req, res) => {
       const userUpdateData = {};
       if (firstName !== undefined) userUpdateData.firstName = firstName;
       if (lastName !== undefined) userUpdateData.lastName = lastName;
+
+      if (email !== undefined && email !== user.email) {
+        const existingUser = await User.findOne({
+          where: {
+            email,
+            id: { [db.Sequelize.Op.ne]: req.user.id }
+          }
+        });
+
+        if (existingUser) {
+          return res.status(400).json({
+            success: false,
+            message: 'Korisnik sa ovom email adresom već postoji.'
+          });
+        }
+
+        userUpdateData.email = email;
+      }
+
+      if (currentPassword !== undefined || newPassword !== undefined) {
+        if (!currentPassword || !newPassword) {
+          return res.status(400).json({
+            success: false,
+            message: 'Za promenu lozinke unesite trenutnu i novu lozinku.'
+          });
+        }
+
+        const isCurrentPasswordValid = comparePassword(currentPassword, user.password);
+        if (!isCurrentPasswordValid) {
+          return res.status(400).json({
+            success: false,
+            message: 'Trenutna lozinka nije ispravna.'
+          });
+        }
+
+        if (newPassword.length < 6) {
+          return res.status(400).json({
+            success: false,
+            message: 'Nova lozinka mora imati najmanje 6 karaktera.'
+          });
+        }
+
+        userUpdateData.password = hashPassword(newPassword);
+      }
+
       if (Object.keys(userUpdateData).length > 0) {
         await user.update(userUpdateData);
       }

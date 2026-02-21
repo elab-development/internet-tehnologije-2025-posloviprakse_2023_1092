@@ -231,6 +231,11 @@ export default function ApplicationsPage() {
                         const applicantUser = applicant?.user || applicant?.User;
                         const cvUrl = app.cvUrl || app.cv_url || applicant?.cv_url;
                         const cvFilename = app.cvFilename || app.cv_filename || applicant?.cv_filename || 'CV';
+                        const resolvedCvUrl = cvUrl
+                          ? (cvUrl.startsWith('http://') || cvUrl.startsWith('https://') || cvUrl.startsWith('data:')
+                              ? cvUrl
+                              : `${apiBase}${cvUrl}`)
+                          : null;
 
                         return (
                           <div
@@ -286,10 +291,10 @@ export default function ApplicationsPage() {
                               </div>
                             )}
 
-                            {cvUrl && (
+                            {resolvedCvUrl && (
                               <div className="mb-4">
                                 <a
-                                  href={`${apiBase}${cvUrl}`}
+                                  href={resolvedCvUrl}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800"

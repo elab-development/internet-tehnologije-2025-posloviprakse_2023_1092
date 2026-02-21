@@ -146,9 +146,11 @@ export const getApplicationsForJob = async (req, res) => {
 
     const { count, rows } = await Application.findAndCountAll({
       where: { jobId },
+      attributes: ['id', 'jobId', 'jobSeekerId', 'status', 'coverLetter', 'cvUrl', 'cvFilename', 'appliedAt', 'createdAt', 'updatedAt'],
       include: [{
         model: JobSeeker,
         as: 'jobSeeker',
+        attributes: ['id', 'phone', 'location', 'skills', 'cv_url', 'cv_filename'],
         include: [{ model: db.User, as: 'user', attributes: ['firstName', 'lastName', 'email'] }]
       }],
       offset,

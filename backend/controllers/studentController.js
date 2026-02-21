@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { deleteFile } from '../middleware/fileUpload.js';
+import { comparePassword, hashPassword } from '../utils/password.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,7 +57,19 @@ export const getMyProfile = async (req, res) => {
 export const updateMyProfile = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { firstName, lastName, bio, phone, location, skills, experience, education } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      currentPassword,
+      newPassword,
+      bio,
+      phone,
+      location,
+      skills,
+      experience,
+      education
+    } = req.body;
 
     const jobSeeker = await JobSeeker.findOne({ where: { userId } });
     const user = await User.findByPk(userId);
@@ -97,6 +110,51 @@ export const updateMyProfile = async (req, res) => {
     const userUpdateData = {};
     if (firstName !== undefined) userUpdateData.firstName = firstName;
     if (lastName !== undefined) userUpdateData.lastName = lastName;
+
+    if (email !== undefined && email !== user.email) {
+      const existingUser = await User.findOne({
+        where: {
+          email,
+          id: { [db.Sequelize.Op.ne]: userId }
+        }
+      });
+
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'Korisnik sa ovom email adresom već postoji.'
+        });
+      }
+
+      userUpdateData.email = email;
+    }
+
+    if (currentPassword !== undefined || newPassword !== undefined) {
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          success: false,
+          message: 'Za promenu lozinke unesite trenutnu i novu lozinku.'
+        });
+      }
+
+      const isCurrentPasswordValid = comparePassword(currentPassword, user.password);
+      if (!isCurrentPasswordValid) {
+        return res.status(400).json({
+          success: false,
+          message: 'Trenutna lozinka nije ispravna.'
+        });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({
+          success: false,
+          message: 'Nova lozinka mora imati najmanje 6 karaktera.'
+        });
+      }
+
+      userUpdateData.password = hashPassword(newPassword);
+    }
+
     if (Object.keys(userUpdateData).length > 0) {
       await user.update(userUpdateData);
     }
