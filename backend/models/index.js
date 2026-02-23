@@ -47,6 +47,7 @@ if (config.use_env_variable) {
 const db = {};
 
 
+/* eslint-env node */
 db.User = UserModel(sequelize);
 db.JobSeeker = JobSeekerModel(sequelize);
 db.Company = CompanyModel(sequelize);

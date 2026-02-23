@@ -10,7 +10,7 @@ export default function CreateJobPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showPreview, setShowPreview] = useState(false);
-  const { user } = useAuth();
+  // ...existing code...
 
   const [formData, setFormData] = useState({
     title: '',

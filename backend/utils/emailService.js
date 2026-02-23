@@ -11,7 +11,7 @@ dotenv.config();
 
 
 
-const createTransporter = () => {
+export const createTransporter = () => {
   
   
   

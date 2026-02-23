@@ -6,7 +6,21 @@ const Job = db.Job;
 const Application = db.Application;
 const Company = db.Company;
 const JobSeeker = db.JobSeeker;
+
+import { createTransporter } from '../utils/emailService.js';
 const Review = db.Review;
+
+// Test email sender for admin
+export const sendTestEmail = async (to, subject, text) => {
+  const transporter = createTransporter();
+  const mailOptions = {
+    from: process.env.SMTP_FROM || 'noreply@jobzee.com',
+    to,
+    subject: subject || 'Test email from Jobzee',
+    text: text || 'Ovo je test email sa Jobzee platforme.'
+  };
+  return transporter.sendMail(mailOptions);
+};
 
 
 

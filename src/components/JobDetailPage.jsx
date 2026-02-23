@@ -23,7 +23,7 @@ export default function JobDetailPage() {
       setLoading(true);
       const data = await jobsAPI.getById(id);
       setJob(data.data || data);
-    } catch (err) {
+    } catch {
       setError('Nije moguće učitati oglas.');
     } finally {
       setLoading(false);

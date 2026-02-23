@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import StatsChart from './StatsChart';
 import { Users, Briefcase, Database, RefreshCw, Eye, EyeOff, Trash2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { adminAPI, jobsAPI } from '../services/api';
 
 export default function AdminConsole() {
-  const { user, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   
   const [activeTab, setActiveTab] = useState('connections');
   const [connections, setConnections] = useState({
@@ -17,7 +17,8 @@ export default function AdminConsole() {
   const [users, setUsers] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showSensitive, setShowSensitive] = useState(false);
+  const [jobStats, setJobStats] = useState({ labels: [], data: [] });
+  // ...existing code...
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -104,6 +105,17 @@ export default function AdminConsole() {
         const jobsList = jobsData.data || [];
         console.log(' Processed jobs:', jobsList);
         setJobs(Array.isArray(jobsList) ? jobsList : []);
+
+        // Calculate jobs per month for chart
+        const monthMap = {};
+        jobsList.forEach(job => {
+          const date = new Date(job.createdAt);
+          const month = date.toLocaleString('default', { month: 'short', year: '2-digit' });
+          monthMap[month] = (monthMap[month] || 0) + 1;
+        });
+        const labels = Object.keys(monthMap);
+        const data = labels.map(label => monthMap[label]);
+        setJobStats({ labels, data });
       } catch (err) {
         console.error('s Cannot fetch jobs:', err.message, err);
       }
@@ -310,57 +322,63 @@ export default function AdminConsole() {
         )}
 
         {activeTab === 'jobs' && (
-          <div className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-            {jobs.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-slate-900 border-b border-slate-700">
-                    <tr>
-                      <th className="px-6 py-4 text-left text-white font-bold">ID</th>
-                      <th className="px-6 py-4 text-left text-white font-bold">Naslov</th>
-                      <th className="px-6 py-4 text-left text-white font-bold">Lokacija</th>
-                      <th className="px-6 py-4 text-left text-white font-bold">Tip</th>
-                      <th className="px-6 py-4 text-left text-white font-bold">Kategorija</th>
-                      <th className="px-6 py-4 text-left text-white font-bold">Kreirano</th>
-                      <th className="px-6 py-4 text-left text-white font-bold">Akcije</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {jobs.map((job) => (
-                      <tr key={job.id} className="border-b border-slate-700 hover:bg-slate-700/50">
-                        <td className="px-6 py-4 text-slate-300 text-xs">{job.id}</td>
-                        <td className="px-6 py-4 text-slate-300 font-semibold">{job.title}</td>
-                        <td className="px-6 py-4 text-slate-400">{job.location}</td>
-                        <td className="px-6 py-4">
-                          <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs">
-                            {job.jobType}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-slate-400">{job.category}</td>
-                        <td className="px-6 py-4 text-slate-400 text-xs">
-                          {new Date(job.createdAt).toLocaleDateString('sr-RS')}
-                        </td>
-                        <td className="px-6 py-4">
-                          <button
-                            onClick={() => setDeleteConfirm({ type: 'job', id: job.id, name: job.title })}
-                            className="px-3 py-1 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded text-xs font-semibold transition flex items-center gap-1"
-                          >
-                            <Trash2 size={14} />
-                            Briši
-                          </button>
-                        </td>
+          <>
+            <div className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 mb-8 p-6">
+              <h2 className="text-xl font-bold text-white mb-4">Grafički prikaz broja oglasa po mesecima</h2>
+              <StatsChart data={jobStats.data} labels={jobStats.labels} title="Broj oglasa po mesecu" />
+            </div>
+            <div className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+              {jobs.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-900 border-b border-slate-700">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-white font-bold">ID</th>
+                        <th className="px-6 py-4 text-left text-white font-bold">Naslov</th>
+                        <th className="px-6 py-4 text-left text-white font-bold">Lokacija</th>
+                        <th className="px-6 py-4 text-left text-white font-bold">Tip</th>
+                        <th className="px-6 py-4 text-left text-white font-bold">Kategorija</th>
+                        <th className="px-6 py-4 text-left text-white font-bold">Kreirano</th>
+                        <th className="px-6 py-4 text-left text-white font-bold">Akcije</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="p-8 text-center text-slate-400">
-                <Briefcase size={48} className="mx-auto mb-4 opacity-50" />
-                <p className="text-lg">Nema oglasa u bazi</p>
-              </div>
-            )}
-          </div>
+                    </thead>
+                    <tbody>
+                      {jobs.map((job) => (
+                        <tr key={job.id} className="border-b border-slate-700 hover:bg-slate-700/50">
+                          <td className="px-6 py-4 text-slate-300 text-xs">{job.id}</td>
+                          <td className="px-6 py-4 text-slate-300 font-semibold">{job.title}</td>
+                          <td className="px-6 py-4 text-slate-400">{job.location}</td>
+                          <td className="px-6 py-4">
+                            <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs">
+                              {job.jobType}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-slate-400">{job.category}</td>
+                          <td className="px-6 py-4 text-slate-400 text-xs">
+                            {new Date(job.createdAt).toLocaleDateString('sr-RS')}
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => setDeleteConfirm({ type: 'job', id: job.id, name: job.title })}
+                              className="px-3 py-1 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded text-xs font-semibold transition flex items-center gap-1"
+                            >
+                              <Trash2 size={14} />
+                              Briši
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-slate-400">
+                  <Briefcase size={48} className="mx-auto mb-4 opacity-50" />
+                  <p className="text-lg">Nema oglasa u bazi</p>
+                </div>
+              )}
+            </div>
+          </>
         )}
 
         {activeTab === 'config' && (

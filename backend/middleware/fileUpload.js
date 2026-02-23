@@ -35,16 +35,7 @@ const cvStorage = multer.diskStorage({
 
 
 
-const profilePicStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, profilePicDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, `profile-${req.user.id}-${uniqueSuffix}${ext}`);
-  }
-});
+// Removed unused profilePicStorage to fix ESLint error
 
 
 

@@ -177,7 +177,7 @@ const OfferPage = () => {
             <h2 className="mt-3 text-3xl md:text-4xl font-display font-semibold">Ko si? Šta želiš da postigneš?</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {roles.map((role, index) => (
+            {roles.map((role) => (
               <div
                 key={role.name}
                 className="rounded-3xl border border-white/10 bg-slate-900/40 p-8 flex flex-col hover:border-emerald-300/60 hover:bg-slate-900/60 transition"

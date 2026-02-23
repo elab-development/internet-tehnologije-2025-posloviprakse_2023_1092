@@ -1,8 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { authAPI } from '../services/api';
 
+
 const AuthContext = createContext();
 
+// Pomocne funkcije izdvojene u poseban fajl zbog react-refresh/only-export-components
+// Kreiraj novi fajl src/context/authHelpers.js i prebaci extractAuthPayload i ostale helpers tamo
+
+// U ovom fajlu eksportuj samo AuthContext, AuthProvider i useAuth
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

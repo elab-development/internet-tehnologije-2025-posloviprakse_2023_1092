@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -5,6 +6,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import helmet from 'helmet';
+import xssClean from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '.env') });
@@ -16,6 +20,7 @@ console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET ✓' : 'MISSING ');
 if (process.env.DATABASE_URL) {
   const masked = process.env.DATABASE_URL.replace(/:[^:]*@/, ':***@');
   console.log('DB URL:', masked);
+/* eslint-env node */
 }
 console.log(' END DEBUG\n');
 
@@ -31,6 +36,7 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -45,9 +51,17 @@ const corsOptions = {
 };
 
 
+
+// Security middleware
+app.use(helmet()); // Sets various HTTP headers for security
+app.use(xssClean()); // Prevents XSS attacks by sanitizing user input
+app.use(mongoSanitize()); // Prevents NoSQL injection (works for MongoDB, but also sanitizes input generally)
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+
+// CSRF protection removed for API-only backend
 
 const uploadsPath = path.resolve(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsPath));

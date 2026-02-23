@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import VerifyEmailPage from './components/VerifyEmailPage';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import BlogPage from './components/BlogPage';
@@ -88,6 +89,7 @@ function App() {
         />
         
         <Route path="/debug" element={<DebugPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
       </Routes>
       <Footer />
     </>

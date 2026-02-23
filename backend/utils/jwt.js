@@ -1,3 +1,4 @@
+/* eslint-env node */
 import jwt from 'jsonwebtoken';
 
 export const generateToken = (id, email, role) => {

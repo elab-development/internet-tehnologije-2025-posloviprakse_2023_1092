@@ -15,11 +15,23 @@ import {
 import { authenticateToken, authorizeRole } from '../middleware/auth.js';
 import { body, param } from 'express-validator';
 import { handleValidationErrors } from '../middleware/validation.js';
+import { sendTestEmail } from '../controllers/adminController.js';
 
 const router = express.Router();
 
 
 router.use(authenticateToken, authorizeRole(['admin']));
+
+// Test route for sending email (for admin only)
+router.post('/test-email', async (req, res) => {
+  const { to, subject, text } = req.body;
+  try {
+    const info = await sendTestEmail(to, subject, text);
+    res.json({ success: true, info });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 
 

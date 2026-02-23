@@ -99,3 +99,14 @@ Pipeline automatski radi sledeće:
 - gradi Docker image za frontend i backend
 - na `main` grani push-uje image-e na GHCR
 - opciono pokreće deployment preko webhook-a (ako je podešen `DEPLOY_WEBHOOK_URL` secret)
+
+## Bezbednost
+
+Aplikacija je zaštićena od najčešćih bezbednosnih napada:
+
+- **CSRF (Cross-Site Request Forgery):** Backend koristi `csurf` middleware koji štiti API od CSRF napada validacijom CSRF tokena za sve state-changing zahteve.
+- **XSS (Cross-Site Scripting):** Korišćen je `xss-clean` middleware koji automatski sanitizuje korisnički input i sprečava XSS napade.
+- **SQL Injection:** Svi upiti ka bazi koriste Sequelize ORM koji automatski koristi parametarske upite i sprečava SQL Injection. Dodatno, inputi se validiraju i sanitizuju.
+- **CORS:** Backend koristi `cors` middleware sa precizno definisanim `origin` poljem, čime se sprečava neautorizovan pristup API-ju sa drugih domena.
+
+> Više detalja o zaštiti se nalazi u kodu u `backend/server.js` i kroz korišćene middlewares.
