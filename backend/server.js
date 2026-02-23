@@ -1,4 +1,3 @@
-
 /* global process */
 
 import express from 'express';
@@ -22,7 +21,6 @@ console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET ✓' : 'MISSING ');
 if (process.env.DATABASE_URL) {
   const masked = process.env.DATABASE_URL.replace(/:[^:]*@/, ':***@');
   console.log('DB URL:', masked);
-/* eslint-env node */
 }
 console.log(' END DEBUG\n');
 
@@ -114,7 +112,7 @@ app.use((req, res) => {
 });
 
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error(err);
   res.status(500).json({
     success: false,

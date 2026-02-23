@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 export async function up(queryInterface, Sequelize) {
   await queryInterface.removeColumn('companies', 'isVerified');
   await queryInterface.addColumn('companies', 'rating', {
@@ -11,7 +10,6 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 
-// eslint-disable-next-line no-unused-vars
 export async function down(queryInterface, Sequelize) {
   await queryInterface.removeColumn('companies', 'rating');
   await queryInterface.removeColumn('companies', 'activeJobsCount');

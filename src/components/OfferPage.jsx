@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Check, Sparkles, ShieldCheck, Rocket } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import AuthModal from './AuthModal';
 
 const roles = [

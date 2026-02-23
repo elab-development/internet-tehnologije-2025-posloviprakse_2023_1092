@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 export default function AuthModal({ isOpen, onClose }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,7 +15,6 @@ export default function AuthModal({ isOpen, onClose }) {
   // Automatski zatvori modal nakon uspešnog login-a
   useEffect(() => {
     if (user && isOpen) {
-      // Korisnik je prijavljen - zatvori modal
       setTimeout(() => {
         onClose();
         setFormData({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
@@ -23,6 +22,8 @@ export default function AuthModal({ isOpen, onClose }) {
         setSuccess('');
       }, 500);
     }
+    // onClose is assumed stable or from useCallback in parent
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isOpen]);
 
   // Form state

@@ -11,8 +11,10 @@ export default function VerifyEmailPage() {
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
     if (!token) {
-      setStatus('error');
-      setMessage('Nedostaje token za verifikaciju.');
+      setTimeout(() => {
+        setStatus('error');
+        setMessage('Nedostaje token za verifikaciju.');
+      }, 0);
       return;
     }
     authAPI.verifyEmail(token)

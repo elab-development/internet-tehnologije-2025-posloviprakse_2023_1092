@@ -1,5 +1,4 @@
 /* global process */
-/* eslint-env node */
 import jwt from 'jsonwebtoken';
 
 export const generateToken = (id, email, role) => {
@@ -18,7 +17,7 @@ export const generateToken = (id, email, role) => {
 export const verifyToken = (token) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
+  } catch {
     return null;
   }
 };

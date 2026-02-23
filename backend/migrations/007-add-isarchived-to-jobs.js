@@ -2,7 +2,6 @@
 
 
 
-// eslint-disable-next-line no-unused-vars
 export async function up(sequelize) {
   const queryInterface = sequelize.getQueryInterface();
   try {
@@ -23,7 +22,6 @@ export async function up(sequelize) {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
 export async function down(sequelize) {
   const queryInterface = sequelize.getQueryInterface();
   try {

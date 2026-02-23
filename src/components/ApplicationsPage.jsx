@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { jobsAPI, applicationsAPI } from '../services/api';
 import { Clock, CheckCircle, XCircle, AlertCircle, Users, Briefcase } from 'lucide-react';
 
@@ -16,26 +16,12 @@ export default function ApplicationsPage() {
   const navigate = useNavigate();
   const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
 
-  useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-
-    
-    if (!token || !user || user.role !== 'company') {
-      navigate('/');
-      return;
-    }
-
-    fetchMyJobs();
-  }, [authLoading, token, user, navigate]);
-
-  const fetchMyJobs = async () => {
+  // Remove duplicate declaration if exists
+  const fetchMyJobs = useCallback(async () => {
     try {
       setLoading(true);
       const response = await jobsAPI.getMyJobs();
       setJobs(response.data || []);
-      
       if (response.data && response.data.length > 0) {
         setSelectedJob(response.data[0].id);
         fetchApplicationsForJob(response.data[0].id);
@@ -46,7 +32,19 @@ export default function ApplicationsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+    if (!token || !user || user.role !== 'company') {
+      navigate('/');
+      return;
+    }
+    fetchMyJobs();
+  }, [authLoading, token, user, navigate, fetchMyJobs]);
+
 
   const fetchApplicationsForJob = async (jobId) => {
     try {

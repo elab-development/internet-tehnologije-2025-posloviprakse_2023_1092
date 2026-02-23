@@ -1,41 +1,18 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import { extractAuthPayload } from './authHelpers.js';
 import { authAPI } from '../services/api';
 
 
 const AuthContext = createContext();
 
-// Pomocne funkcije izdvojene u poseban fajl zbog react-refresh/only-export-components
-// Kreiraj novi fajl src/context/authHelpers.js i prebaci extractAuthPayload i ostale helpers tamo
+//
 
-// U ovom fajlu eksportuj samo AuthContext, AuthProvider i useAuth
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth mora biti korišten unutar AuthProvider');
-  }
-  return context;
-};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const extractAuthPayload = (data) => {
-    const payload = data?.data ?? data?.user ?? data;
-    const tokenFromResponse = data?.token ?? payload?.token;
-    const userFromResponse = payload?.user ?? payload;
-
-    if (userFromResponse && userFromResponse.token) {
-      const { token: embeddedToken, ...rest } = userFromResponse;
-      return {
-        token: tokenFromResponse || embeddedToken,
-        user: rest
-      };
-    }
-
-    return { token: tokenFromResponse, user: userFromResponse };
-  };
 
   
   useEffect(() => {

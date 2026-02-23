@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { jobsAPI } from '../services/api';
 import { Trash2, Archive, MapPin, Briefcase, DollarSign, AlertCircle, CheckCircle, Edit2, X } from 'lucide-react';
 

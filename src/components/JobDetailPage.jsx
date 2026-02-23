@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Briefcase, Clock, DollarSign, Building2 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { jobsAPI, applicationsAPI } from '../services/api';
 
 export default function JobDetailPage() {
@@ -14,11 +14,7 @@ export default function JobDetailPage() {
   const [applyStatus, setApplyStatus] = useState({ type: '', message: '' });
   const { user, isAuthenticated, isStudent } = useAuth();
 
-  useEffect(() => {
-    fetchJob();
-  }, [id]);
-
-  const fetchJob = async () => {
+  const fetchJob = useCallback(async () => {
     try {
       setLoading(true);
       const data = await jobsAPI.getById(id);
@@ -28,7 +24,11 @@ export default function JobDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchJob();
+  }, [fetchJob]);
 
   const canApply = isAuthenticated() && (isStudent() || user?.role === 'alumni');
 

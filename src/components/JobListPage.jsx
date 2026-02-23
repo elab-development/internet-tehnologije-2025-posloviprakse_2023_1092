@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MapPin, Briefcase, Clock, Search, Filter, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { jobsAPI } from '../services/api';
@@ -23,19 +23,13 @@ export default function JobListPage() {
   const experienceLevels = ['Entry', 'Mid', 'Senior'];
   const categories = ['IT', 'Marketing', 'Sales', 'Design', 'HR', 'Finance', 'Other'];
 
-  useEffect(() => {
-    fetchJobs();
-  }, [filters]);
-
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     try {
       setLoading(true);
       console.log(' Počinjem učitavanje poslova...');
       console.log(' API URL:', import.meta.env.VITE_API_URL);
-      
       const data = await jobsAPI.getAll(filters);
       console.log(' Podaci primljeni:', data);
-      
       setJobs(data.data || data);
       setError('');
     } catch (err) {
@@ -44,7 +38,11 @@ export default function JobListPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [fetchJobs]);
 
   const handleFilterChange = (name, value) => {
     setFilters(prev => ({ ...prev, [name]: value }));

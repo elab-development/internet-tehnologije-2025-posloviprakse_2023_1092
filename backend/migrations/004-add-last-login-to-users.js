@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 export async function up(queryInterface, Sequelize) {
   await queryInterface.addColumn('users', 'lastLogin', {
     type: Sequelize.DATE,
@@ -15,7 +14,6 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function down(queryInterface, Sequelize) {
+export async function down(queryInterface) {
   await queryInterface.removeColumn('users', 'lastLogin');
 }

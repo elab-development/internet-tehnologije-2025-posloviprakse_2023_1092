@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { applicationsAPI } from '../services/api';
 import { Clock, CheckCircle, XCircle, AlertCircle, Briefcase } from 'lucide-react';
 

@@ -1,3 +1,4 @@
+/* global process */
 import { Sequelize } from 'sequelize';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -47,7 +48,6 @@ if (config.use_env_variable) {
 const db = {};
 
 
-/* eslint-env node */
 db.User = UserModel(sequelize);
 db.JobSeeker = JobSeekerModel(sequelize);
 db.Company = CompanyModel(sequelize);

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Briefcase, FileText, UserCircle, LogOut, Settings } from 'lucide-react';
 import AuthModal from './AuthModal';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 const Navbar = () => {
     const [authModalOpen, setAuthModalOpen] = useState(false);

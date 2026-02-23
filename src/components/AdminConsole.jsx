@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+
+/* global process */
+import React, { useState, useEffect, useCallback } from 'react';
 import StatsChart from './StatsChart';
 import { Users, Briefcase, Database, RefreshCw, Eye, EyeOff, Trash2 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 import { adminAPI, jobsAPI } from '../services/api';
 
 export default function AdminConsole() {
@@ -22,40 +23,28 @@ export default function AdminConsole() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  useEffect(() => {
-    checkConnections();
-  }, []);
-
-  const checkConnections = async () => {
+  // useCallback to avoid missing dependency warning
+  // Remove duplicate declaration if exists
+  const checkConnections = useCallback(async () => {
     setLoading(true);
     try {
-      
       const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const healthCheckUrl = apiBaseUrl.replace('/api', '') + '/api/health';
-      
       console.log(' Health check URL:', healthCheckUrl);
-      
-      
       const healthCheck = await fetch(healthCheckUrl).catch((err) => {
         console.error('Health check fetch error:', err);
         return null;
       });
-      
       console.log(' Health check response:', healthCheck?.status, healthCheck?.statusText);
-      
       if (healthCheck?.ok) {
         const healthData = await healthCheck.json();
-        
         console.log(' Health data:', healthData);
-        
         setConnections(prev => ({
           ...prev,
           backend: 'CONNECTED ',
           database: healthData.database === 'CONNECTED' ? 'CONNECTED ' : 'DISCONNECTED ',
           api: 'CONNECTED '
         }));
-        
-        
         if (healthData.database === 'CONNECTED') {
           await fetchAllData();
         }
@@ -79,8 +68,14 @@ export default function AdminConsole() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
+  useEffect(() => {
+    checkConnections();
+  }, [checkConnections]);
+
+
+  // Remove duplicate declaration if exists
   const fetchAllData = async () => {
     try {
       console.log(' Fetching admin data...');

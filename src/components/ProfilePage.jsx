@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, MapPin, Briefcase, Edit2, LogOut, Upload, Download, Trash2, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { studentAPI, companiesAPI } from '../services/api';
 
 export default function ProfilePage() {
@@ -39,36 +39,34 @@ export default function ProfilePage() {
     if (authLoading) {
       return;
     }
-
     if (!token || !user) {
       navigate('/');
       return;
     }
-
-    fetchProfile();
-  }, [authLoading, navigate, token, user, fetchProfile]);
-
-  const fetchProfile = async () => {
-    try {
-      setLoading(true);
-      
-      if (isStudent()) {
-        const data = await studentAPI.getProfile();
-        setUserProfile(data.data || data);
-      } else if (isCompany()) {
-        const data = await companiesAPI.getMyProfile();
-        setUserProfile(data.data || data);
-      } else {
+    async function fetchProfile() {
+      try {
+        setLoading(true);
+        if (isStudent()) {
+          const data = await studentAPI.getProfile();
+          setUserProfile(data.data || data);
+        } else if (isCompany()) {
+          const data = await companiesAPI.getMyProfile();
+          setUserProfile(data.data || data);
+        } else {
+          setUserProfile(user);
+        }
+      } catch (err) {
+        console.error('Greška pri učitavanju profila:', err);
+        setError(err.message);
         setUserProfile(user);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Greška pri učitavanju profila:', err);
-      setError(err.message);
-      setUserProfile(user);
-    } finally {
-      setLoading(false);
     }
-  };
+    fetchProfile();
+  }, [authLoading, navigate, token, user, isStudent, isCompany]);
+
+  // (fetchProfile removed, now only inside useEffect)
 
   const handleLogout = () => {
     logout();
