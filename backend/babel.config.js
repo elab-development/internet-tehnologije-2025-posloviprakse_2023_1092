@@ -1,4 +1,5 @@
-module.exports = {
+/* eslint-disable */
+export default {
   presets: [
     [
       '@babel/preset-env',
