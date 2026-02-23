@@ -15,6 +15,6 @@ test('renders Jobzee app main heading', () => {
       </AuthProvider>
     </MemoryRouter>
   );
-  const heading = screen.getByText(/jobzee/i);
-  expect(heading).toBeInTheDocument();
+  const headings = screen.getAllByText(/jobzee/i);
+  expect(headings.length).toBeGreaterThan(0);
 });
