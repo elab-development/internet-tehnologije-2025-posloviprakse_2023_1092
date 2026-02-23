@@ -7,13 +7,9 @@ import { useAuth } from '../context/AuthContext';
 const Navbar = () => {
     const [authModalOpen, setAuthModalOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [key, setKey] = useState(0);
     const { user, logout, isAuthenticated, isCompany } = useAuth();
 
     
-    useEffect(() => {
-        setKey(prev => prev + 1);
-    }, [user]);
 
     const handleLogout = () => {
         logout();

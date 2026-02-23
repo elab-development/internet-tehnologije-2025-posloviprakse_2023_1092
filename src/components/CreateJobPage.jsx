@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, AlertCircle, CheckCircle, Briefcase, MapPin, DollarSign } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { jobsAPI } from '../services/api';
 
 export default function CreateJobPage() {

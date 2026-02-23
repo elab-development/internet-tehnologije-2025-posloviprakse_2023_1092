@@ -1,3 +1,4 @@
+/* global process */
 /* eslint-env node */
 import dotenv from 'dotenv';
 import path from 'path';

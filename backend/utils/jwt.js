@@ -1,3 +1,4 @@
+/* global process */
 /* eslint-env node */
 import jwt from 'jsonwebtoken';
 

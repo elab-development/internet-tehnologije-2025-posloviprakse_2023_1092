@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 
+// eslint-disable-next-line no-unused-vars
 export async function up(queryInterface, Sequelize) {
   
   await queryInterface.createTable('jobs', {
@@ -159,6 +160,7 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function down(queryInterface, Sequelize) {
   await queryInterface.dropTable('reviews');
   await queryInterface.dropTable('applications');

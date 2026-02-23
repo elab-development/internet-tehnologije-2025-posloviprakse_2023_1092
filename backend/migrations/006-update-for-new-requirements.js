@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 export async function up(queryInterface, Sequelize) {
   
   await queryInterface.addColumn('users', 'emailVerified', {
@@ -90,6 +91,7 @@ export async function up(queryInterface, Sequelize) {
 }
 
 
+// eslint-disable-next-line no-unused-vars
 export async function down(queryInterface, Sequelize) {
   
 

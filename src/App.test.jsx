@@ -1,3 +1,4 @@
+/* global describe, it, expect, test */
 import { render, screen } from '@testing-library/react';
 import { describe, it, test, expect } from 'vitest';
 import App from './App';

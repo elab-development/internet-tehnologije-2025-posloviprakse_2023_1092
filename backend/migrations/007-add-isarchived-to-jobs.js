@@ -2,11 +2,10 @@
 
 
 
+// eslint-disable-next-line no-unused-vars
 export async function up(sequelize) {
   const queryInterface = sequelize.getQueryInterface();
-  
   try {
-    
     const tableDescription = await queryInterface.describeTable('jobs');
     if (!tableDescription.isArchived) {
       await queryInterface.addColumn('jobs', 'isArchived', {
@@ -24,9 +23,9 @@ export async function up(sequelize) {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function down(sequelize) {
   const queryInterface = sequelize.getQueryInterface();
-  
   try {
     await queryInterface.removeColumn('jobs', 'isArchived');
     console.log(' Removed isArchived column from jobs table');

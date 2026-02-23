@@ -1,3 +1,4 @@
+/* global describe, it, expect */
 import request from 'supertest';
 import express from 'express';
 import cors from 'cors';

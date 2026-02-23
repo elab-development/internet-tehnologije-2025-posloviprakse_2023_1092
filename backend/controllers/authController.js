@@ -1,3 +1,4 @@
+/* global process */
 import db from '../models/index.js';
 import { comparePassword, hashPassword } from '../utils/password.js';
 import { generateToken } from '../utils/jwt.js';
