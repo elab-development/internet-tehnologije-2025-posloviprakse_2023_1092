@@ -1,4 +1,4 @@
-name: CI-CD
+name: CI/CD ceo proces
 
 on:
   push:
@@ -20,52 +20,52 @@ env:
 
 jobs:
   ci:
-    name: Test and Build Checks
+    name: Testiranje i build provere
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Preuzmi repozitorijum
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Podesi Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install frontend dependencies
+      - name: Instaliraj frontend zavisnosti
         run: npm install
 
-      - name: Run frontend lint (if exists)
+      - name: Pokreni frontend lint (ako postoji)
         run: npm run lint --if-present
 
-      - name: Build frontend
+      - name: Izgradi frontend
         run: npm run build --if-present
 
-      - name: Run frontend tests (if exists)
+      - name: Pokreni frontend testove (ako postoje)
         run: npm run test --if-present
 
-      - name: Install backend dependencies
+      - name: Instaliraj backend zavisnosti
         run: npm --prefix backend install
 
-      - name: Run backend tests (if exists)
+      - name: Pokreni backend testove (ako postoje)
         run: npm --prefix backend run test --if-present
 
-      - name: Backend syntax check
+      - name: Provera sintakse backend-a
         run: node --check backend/server.js
 
   docker:
-    name: Build Docker Images
+    name: Izgradnja Dockera
     needs: ci
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Preuzmi repozitorijum
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
+      - name: Podesi Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to GHCR
+      - name: Prijava na GHCR
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
@@ -73,7 +73,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build backend image
+      - name: Izgradi backend Docker sliku
         uses: docker/build-push-action@v6
         with:
           context: ./backend
@@ -83,7 +83,7 @@ jobs:
             ghcr.io/${{ github.repository }}-backend:${{ github.sha }}
             ghcr.io/${{ github.repository }}-backend:latest
 
-      - name: Build frontend image
+      - name: Izgradi frontend Docker sliku
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -94,7 +94,7 @@ jobs:
             ghcr.io/${{ github.repository }}-frontend:latest
 
   deploy:
-    name: Optional Deploy
+    name: Opcioni deploy
     needs: docker
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -102,7 +102,7 @@ jobs:
       DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
 
     steps:
-      - name: Trigger deployment webhook
+      - name: Pokreni deployment webhook
         if: env.DEPLOY_WEBHOOK_URL != ''
         run: |
           curl -X POST "${DEPLOY_WEBHOOK_URL}" \
