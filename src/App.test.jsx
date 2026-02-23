@@ -13,4 +13,3 @@ test('renders Jobzee app main heading', () => {
   const heading = screen.getByText(/jobzee/i);
   expect(heading).toBeInTheDocument();
 });
-import React from 'react';
