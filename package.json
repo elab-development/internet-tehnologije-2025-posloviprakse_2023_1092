@@ -24,6 +24,9 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "@babel/register": "^7.28.6",
     "@eslint/js": "^9.39.1",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/react": "^16.3.2",

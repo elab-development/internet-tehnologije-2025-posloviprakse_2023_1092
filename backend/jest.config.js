@@ -1,6 +1,8 @@
 export default {
   testEnvironment: 'node',
-  transform: {},
+  transform: {
+    '^.+\\.js$': ['babel-jest', { configFile: './babel.config.js' }],
+  },
   moduleNameMapper: {},
   verbose: true,
 };
